@@ -1,10 +1,16 @@
+text.legend {
+    font: 11px sans-serif;
+    text-anchor: end;
+}
+
 .bar {
-    fill: #615F72;
+    fill: #AB0808;
 }
 
 .bar:hover {
-    fill: #AB0808;
+    fill: #615F72;
 }
+
 
 .axis {
     font: 10px sans-serif;

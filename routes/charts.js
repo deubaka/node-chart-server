@@ -17,10 +17,7 @@ router.get('/', function (req, res, next) {
                 if (err) {
                     res.send({success: false, result: err.message});
                 } else {
-                    res.render('charts-debug', {
-                        params: util.inspect(req.query),
-                        chartSrc: chartLocation
-                    });
+                    res.send({success: true, result: chartLocation});
                 }
             });
 
