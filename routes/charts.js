@@ -2,6 +2,7 @@ var util = require('util');
 var d3 = require('d3');
 var path = require('path');
 var chartFactory = require('../lib/chart-factory');
+var s3Helper = require('../lib/s3-helper');
 var express = require('express');
 var router = express.Router();
 
@@ -28,9 +29,13 @@ router.get('/', function (req, res, next) {
                 if (err) {
                     res.send({success: false, result: err.message});
                 } else {
-                    // res.setHeader('Content-Type', 'image/svg+xml');
-                    res.sendFile(path.join(__dirname, '../gen', chartLocation));
-
+                    s3Helper.uploadChart(path.join(__dirname, '../gen', chartLocation), function (err, s3Location) {
+                        if (err) {
+                            res.send({success: false, result: err.message});
+                        } else {
+                            res.send({success: true, result: s3Location});
+                        }
+                    });
                 }
             });
         }
