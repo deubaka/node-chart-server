@@ -1,15 +1,15 @@
-var pieCharts = require('./pie-chart');
-var barSimpleHoriCharts = require('./bar-simple-hori-chart');
-var barSimpleVertCharts = require('./bar-simple-vert-chart');
+import pieCharts from './pie-chart';
+import barSimpleHoriCharts from './bar-simple-hori-chart';
+import barSimpleVertCharts from './bar-simple-vert-chart';
 
-module.exports = {
+export default {
     Type: {
         PIE: 'chart.pie',
         BAR_SIMPLE_HORIZONTAL: 'chart.bar-simple-h',
         BAR_SIMPLE_VERTICAL: 'chart.bar-simple-v',
         LINE: 'chart.line'
     },
-    createChartFor: function (chartType, data, callback) {
+    createChartFor(chartType, data, callback) {
         switch (chartType) {
             case this.Type.PIE:
                 console.log('Type.PIE');
@@ -30,4 +30,4 @@ module.exports = {
                 callback(new Error('No match'));
         }
     }
-}
+};
