@@ -21,6 +21,7 @@
     "pn": "^1.0.0",
     "serve-favicon": "~2.3.0",
     "svg2png": "^3.0.0",
+    "util": "^0.10.3",
     "zlib": "^1.0.5"
   },
   "devDependencies": {

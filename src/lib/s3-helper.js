@@ -1,9 +1,10 @@
-import fs from "fs";
-import path from "path";
-import uuid from "node-uuid";
-import AWS from "aws-sdk";
-import gm from "gm";
-import Config from "../res/config";
+import fs from 'fs';
+import path from 'path';
+import uuid from 'node-uuid';
+import AWS from 'aws-sdk';
+import gm from 'gm';
+import util from 'util';
+import Config from '../res/config';
 
 const credentials = new AWS.SharedIniFileCredentials({profile: Config.AWS_PROFILE});
 AWS.config.credentials = credentials;
