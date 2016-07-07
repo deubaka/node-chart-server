@@ -18,7 +18,7 @@ export default {
         console.log(`filename: ${pngFilename}`);
         const pngFilepath = path.join(__dirname, '..', '..', 'gen', pngFilename);
         gm(filepath)
-            .density(100, 100)
+            .density(150, 150)
             .write(pngFilepath, function (err) {
                 if (err) {
                     return console.log(err);
@@ -51,7 +51,7 @@ export default {
                     });
                     fs.unlink(pngFilepath, err => {
                         if (!err) {
-                            console.log(`Deleted ${filepath}`);
+                            console.log(`Deleted ${pngFilepath}`);
                         }
                     });
                 });
