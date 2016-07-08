@@ -13,28 +13,28 @@ router.get('/', (req, res, next) => {
         if (params.debug) {
             chartFactory.createChartFor(type, data, (err, chartLocation) => {
                 if (err) {
-                    res.send({success: false, result: err.message});
+                    res.status(500).json({success: false, result: err.message});
                 } else {
-                    res.send({success: true, result: chartLocation});
+                    res.status(200).json({success: true, result: chartLocation});
                 }
             });
         } else {
             chartFactory.createChartFor(type, data, (err, chartLocation) => {
                 if (err) {
-                    res.send({success: false, result: err.message});
+                    res.status(500).json({success: false, result: err.message});
                 } else {
                     s3Helper.uploadChart(path.join(__dirname, '..', '..', 'gen', chartLocation), (err, s3Location) => {
                         if (err) {
-                            res.send({success: false, result: err.message});
+                            res.status(400).json({success: false, result: err.message});
                         } else {
-                            res.send({success: true, result: s3Location});
+                            res.status(200).json({success: true, result: s3Location});
                         }
                     });
                 }
             });
         }
     } else {
-        res.send({success: false, result: 'Incomplete params'});
+        res.status(400).json({success: false, result: 'Incomplete params'});
     }
 });
 
