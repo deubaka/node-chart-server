@@ -18,7 +18,9 @@ export default {
         console.log(`filename: ${pngFilename}`);
         const pngFilepath = path.join(__dirname, '..', '..', 'gen', pngFilename);
         gm(filepath)
-            .density(150, 150)
+            .density(100, 100)
+            .quality(95)
+            .resize(null, 400)
             .write(pngFilepath, function (err) {
                 if (err) {
                     return console.log(err);
