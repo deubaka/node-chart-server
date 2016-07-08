@@ -2,39 +2,38 @@ import fs from 'fs';
 import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
+import util from 'util';
 import colors from '../res/color';
 
 const outerMargin = 25;
-const chartWidth = 500, chartHeight = 400;
-const radius = Math.min(chartWidth, chartHeight) / 2 - outerMargin;
+const chartWidth = 400, chartHeight = 400;
+const donutWidth = 75;
+const radius = Math.min(chartWidth, chartHeight) / 2;
 
 const arc = d3.svg.arc()
-    .outerRadius(radius - outerMargin);
-
-const labelArc = d3.svg.arc()
-    .outerRadius(radius - (100 - outerMargin))
-    .innerRadius(radius - (100 - outerMargin));
+    .outerRadius(radius - outerMargin)
+    .innerRadius(radius - outerMargin - donutWidth);
 
 const pie = d3.layout.pie()
+    .padAngle(.01)
     .sort(null)
     .value(d => d.val);
 
 const legendRectSize = 12;
 const legendSpacing = 4;
 
-export default (pieData, callback) => {
-    if (!pieData) {
+export default (donutData, callback) => {
+    if (!donutData) {
         return callback(new Error('No data to work on'));
     }
+
     const colorRange = d3.scale
         .ordinal()
-        .domain(pieData.map(function (d) {
-            return d.label;
-        }))
+        .domain(donutData.map(function(d) { return d.label; }))
         .range(colors.Swatch.Blue);
     const color = colorRange;
 
-    const filename = `pie_${new Date().getTime()}.svg`;
+    const filename = `donut_${new Date().getTime()}.svg`;
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
 
     jsdom.env({
@@ -54,40 +53,20 @@ export default (pieData, callback) => {
                     height: chartHeight
                 })
                 .append('g')
-                .attr('transform', `translate(${chartWidth / 3},${chartHeight / 2})`);
+                .attr('transform', `translate(${chartWidth / 2},${chartHeight / 2})`);
 
             const g = svg.selectAll('.arc')
-                .data(pie(pieData))
+                .data(pie(donutData))
                 .enter();
 
             g.append('path')
                 .attr({
                     'd': arc,
-                    'fill': (d, i) => {
+                    'fill': (d) => {
+                        console.log('d: ' + util.inspect(d));
                         return color(d.data.label);
                     },
                     'shape-rendering': 'auto'
-                });
-
-            g.append('text')
-                .attr({
-                    'transform': (d) => {
-                        return `translate(${labelArc.centroid(d)})`;
-                    },
-                    'text-rendering': 'auto'
-                })
-                .attr({
-                    'fill': '#fff',
-                    'font-family': 'sans-serif',
-                    'font-size': '10px',
-                    'text-rendering': 'auto',
-                    'text-anchor': (d) => {
-                        return (d.endAngle + d.startAngle) / 2 > Math.PI ?
-                            'end' : 'start';
-                    }
-                })
-                .text(d => {
-                    return (d.endAngle + d.startAngle) / 2 > Math.PI ? d.data.val + ' •' : '• ' + d.data.val;
                 });
 
             const legend = svg.selectAll('.legend')
@@ -97,7 +76,7 @@ export default (pieData, callback) => {
                 .attr('transform', function (d, i) {
                     var height = legendRectSize + legendSpacing;
                     var offset = height * color.domain().length / 2;
-                    var horz = (chartWidth / 5) + 100;
+                    var horz = -4 * legendRectSize;
                     var vert = i * height - offset;
                     return 'translate(' + horz + ',' + vert + ')';
                 });
@@ -125,6 +104,7 @@ export default (pieData, callback) => {
                 .text((d) => {
                     return d;
                 });
+
             try {
                 fs.writeFileSync(outputLocation, window.d3.select('.container').html());
                 callback(null, filename);
