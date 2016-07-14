@@ -31,7 +31,7 @@ export default (pieData, callback) => {
         .domain(pieData.map(function (d) {
             return d.label;
         }))
-        .range(colors.Swatch.Hyper);
+        .range(colors.Swatch.Blue);
     const color = colorRange;
 
     const filename = `pie_${new Date().getTime()}.svg`;
