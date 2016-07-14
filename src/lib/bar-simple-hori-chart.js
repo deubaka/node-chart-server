@@ -19,7 +19,7 @@ export default (barSimpleData, callback) => {
             window.d3 = d3.select(window.document);
             const data = barSimpleData;
 
-            const margin = {top: 20, right: 20, bottom: 30, left: 40}, barWidth = 30, height = barWidth * data.length * 1.5, width = height * 2;
+            const margin = {top: 20, right: 20, bottom: 30, left: 80}, barWidth = 30, height = barWidth * data.length * 1.5, width = height * 2;
 
             const x = d3.scale.linear()
                 .range([0, width]);
@@ -71,7 +71,7 @@ export default (barSimpleData, callback) => {
             svg = svg.append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
 
-            x.domain([0, d3.max(data, d => d.hits)]);
+            x.domain([0, d3.max(data, d => d.val)]);
 
             y.domain(data.map(d => d.label));
 
@@ -99,7 +99,7 @@ export default (barSimpleData, callback) => {
                 .attr('y', d => y(d.label))
                 .attr('height', y.rangeBand())
                 .attr('x', d => 50)
-                .attr('width', d => x(d.hits));
+                .attr('width', d => x(d.val));
             try {
                 fs.writeFileSync(outputLocation, window.d3.select('.container').html());
                 callback(null, filename);
