@@ -19,7 +19,7 @@ const pie = d3.layout.pie()
     .sort(null)
     .value(d => d.val);
 
-const legendRectSize = 12;
+const legendRectSize = 10;
 const legendSpacing = 4;
 
 export default (donutData, callback) => {
@@ -76,7 +76,7 @@ export default (donutData, callback) => {
                 .attr('transform', function (d, i) {
                     var height = legendRectSize + legendSpacing;
                     var offset = height * color.domain().length / 2;
-                    var horz = -4 * legendRectSize;
+                    var horz = -3 * legendRectSize;
                     var vert = i * height - offset;
                     return 'translate(' + horz + ',' + vert + ')';
                 });
@@ -99,7 +99,7 @@ export default (donutData, callback) => {
                     'x': legendRectSize + legendSpacing,
                     'y': legendRectSize - legendSpacing
                 })
-                .style('font-size', '12px')
+                .style('font-size', '10px')
                 .style('fill', '#615F72')
                 .text((d) => {
                     return d;
