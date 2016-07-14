@@ -120,7 +120,7 @@ export default (pieData, callback) => {
                     'x': legendRectSize + legendSpacing,
                     'y': legendRectSize - legendSpacing
                 })
-                .style('font-size', '12px')
+                .style('font', '12px sans-serif')
                 .style('fill', '#615F72')
                 .text((d) => {
                     return d;

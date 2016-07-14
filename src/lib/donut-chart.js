@@ -99,7 +99,7 @@ export default (donutData, callback) => {
                     'x': legendRectSize + legendSpacing,
                     'y': legendRectSize - legendSpacing
                 })
-                .style('font-size', '10px')
+                .style('font', '10px sans-serif')
                 .style('fill', '#615F72')
                 .text((d) => {
                     return d;
