@@ -59,7 +59,7 @@ export default (barSimpleData, callback) => {
                     'width': 10,
                     'y': (height + margin.bottom + margin.top),
                     'x': ((width + margin.left + margin.right) / 2),
-                    'fill': '#AB0808',
+                    'fill': '#44586A',
                     'shape-rendering': 'auto'
                 });
 
@@ -79,6 +79,35 @@ export default (barSimpleData, callback) => {
             x.domain(data.map(d => d.label));
 
             y.domain([0, d3.max(data, d => d.val)]);
+
+            const xAxisGrid = () => {
+                return d3.svg.axis()
+                    .scale(x)
+                    .orient('bottom')
+                    .ticks(5);
+            };
+
+            const yAxisGrid = () => {
+                return d3.svg.axis()
+                    .scale(y)
+                    .orient('left')
+                    .ticks(10);
+            };
+
+            svg.append('g')
+                .attr('class', 'grid')
+                .attr('transform', `translate(0, ${height})`)
+                .call(xAxisGrid()
+                    .tickSize(-height, 0, 0)
+                    .tickFormat('')
+                );
+
+            svg.append('g')
+                .attr('class', 'grid')
+                .call(yAxisGrid()
+                    .tickSize(-width, 0, 0)
+                    .tickFormat('')
+                );
 
             svg.append('g')
                 .attr('class', 'x axis')

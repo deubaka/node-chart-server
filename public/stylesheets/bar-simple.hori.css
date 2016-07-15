@@ -4,12 +4,13 @@ text.legend {
 }
 
 .bar {
-    fill: #AB0808;
+    /*fill: #AB0808;*/
+    fill: #44586A;
 }
 
-.bar:hover {
-    fill: #615F72;
-}
+/*.bar:hover {*/
+    /*fill: #615F72;*/
+/*}*/
 
 
 .axis {
@@ -25,4 +26,12 @@ text.legend {
 
 .y.axis path {
     stroke: #e6e6e6;
+}
+
+.grid .tick {
+    stroke: #e6e6e6;
+    opacity: 0.7;
+}
+.grid path {
+    stroke-width: 0;
 }

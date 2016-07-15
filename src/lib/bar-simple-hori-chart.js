@@ -49,12 +49,13 @@ export default (barSimpleData, callback) => {
 
             svg.append('rect')
                 .attr({
-                    id: `svg_${new Date().getTime()}`,
-                    height: 10,
-                    width: 10,
-                    y: (height + margin.bottom + margin.top),
-                    x: ((width + margin.left + margin.right) / 2),
-                    fill: '#AB0808'
+                    'id': `svg_${new Date().getTime()}`,
+                    'height': 10,
+                    'width': 10,
+                    'y': (height + margin.bottom + margin.top),
+                    'x': ((width + margin.left + margin.right) / 2),
+                    'fill': '#44586A',
+                    'shape-rendering': 'auto'
                 });
 
             svg.append('text')
@@ -63,7 +64,8 @@ export default (barSimpleData, callback) => {
                     'dy' : '.32em',
                     'class' : 'legend',
                     'y' : (height + margin.bottom + margin.top) + 5,
-                    'x' : ((width + margin.left + margin.right) / 2) + 35
+                    'x' : ((width + margin.left + margin.right) / 2) + 35,
+                    'text-rendering': 'auto'
                 })
                 .text('Hits');
 
@@ -74,6 +76,36 @@ export default (barSimpleData, callback) => {
             x.domain([0, d3.max(data, d => d.val)]);
 
             y.domain(data.map(d => d.label));
+
+            const xAxisGrid = () => {
+                return d3.svg.axis()
+                    .scale(x)
+                    .orient('bottom')
+                    .ticks(10);
+            };
+
+            const yAxisGrid = () => {
+                return d3.svg.axis()
+                    .scale(y)
+                    .orient('left')
+                    .ticks(5);
+            };
+
+            svg.append('g')
+                .attr('class', 'grid')
+                .attr('transform', `translate(50, ${height})`)
+                .call(xAxisGrid()
+                    .tickSize(-height, 0, 0)
+                    .tickFormat('')
+                );
+
+            svg.append('g')
+                .attr('class', 'grid')
+                .attr('transform', `translate(40, 0)`)
+                .call(yAxisGrid()
+                    .tickSize(-width, 0, 0)
+                    .tickFormat('')
+                );
 
             svg.append('g')
                 .attr('class', 'y axis')
