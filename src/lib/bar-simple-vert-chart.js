@@ -21,7 +21,7 @@ export default (barSimpleData, callback) => {
 
             const margin = {top: 20, right: 20, bottom: 30, left: 80},
                 barWidth = 30,
-                width = (barWidth * data.length * 2),
+                width = (barWidth * data.length * 4),
                 height = width / 2;
 
             const x = d3.scale.ordinal()
