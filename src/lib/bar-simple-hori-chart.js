@@ -67,16 +67,16 @@ export default (barSimpleData, callback) => {
                     'shape-rendering': 'auto'
                 });
 
-            svg.append('text')
-                .attr({
-                    'xml:space' : 'preserve',
-                    'dy' : '.32em',
-                    'class' : 'legend',
-                    'y' : (height + margin.bottom + margin.top) + 5,
-                    'x' : ((width + margin.left + margin.right) / 2) + 35,
-                    'text-rendering': 'auto'
-                })
-                .text('Hits');
+            // svg.append('text')
+            //     .attr({
+            //         'xml:space' : 'preserve',
+            //         'dy' : '.32em',
+            //         // 'class' : 'legend',
+            //         'y' : (height + margin.bottom + margin.top) + 5,
+            //         'x' : ((width + margin.left + margin.right) / 2) + 35,
+            //         'text-rendering': 'auto'
+            //     })
+            //     .text('Hits');
 
             svg.append('style').html(css);
             svg = svg.append('g')
