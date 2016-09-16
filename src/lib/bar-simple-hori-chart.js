@@ -2,6 +2,7 @@ import fs from 'fs';
 import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
+import colors from '../res/color';
 
 export default (barSimpleData, callback) => {
     if (!barSimpleData) {
@@ -17,6 +18,14 @@ export default (barSimpleData, callback) => {
         features: {QuerySelector: true},
         done(errors, window) {
             window.d3 = d3.select(window.document);
+            const colorRange = d3.scale
+                .ordinal()
+                .domain(barSimpleData.map((d) =>{
+                    return d.label;
+                }))
+                .range(colors.Swatch.Google);
+            const color = colorRange;
+
             const data = barSimpleData;
 
             const margin = {top: 20, right: 20, bottom: 30, left: 80}, barWidth = 30, height = barWidth * data.length * 1.5, width = height * 2;
@@ -127,11 +136,14 @@ export default (barSimpleData, callback) => {
                 .data(data)
                 .enter()
                 .append('rect')
-                .attr('class', 'bar')
+                // .attr('class', 'bar')
                 .attr('y', d => y(d.label))
                 .attr('height', y.rangeBand())
                 .attr('x', d => 50)
-                .attr('width', d => x(d.val));
+                .attr('width', d => x(d.val))
+                .attr("fill", (d) => {
+                    return color(d.label);
+                });
             try {
                 fs.writeFileSync(outputLocation, window.d3.select('.container').html());
                 callback(null, filename);

@@ -2,6 +2,7 @@ import fs from 'fs';
 import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
+import colors from '../res/color';
 
 export default (barSimpleData, callback) => {
     if (!barSimpleData) {
@@ -18,6 +19,14 @@ export default (barSimpleData, callback) => {
         done(errors, window) {
             window.d3 = d3.select(window.document);
             const data = barSimpleData;
+
+            const colorRange = d3.scale
+                .ordinal()
+                .domain(barSimpleData.map((d) =>{
+                    return d.label;
+                }))
+                .range(colors.Swatch.Google);
+            const color = colorRange;
 
             const margin = {top: 20, right: 20, bottom: 30, left: 80},
                 barWidth = 30,
@@ -65,11 +74,11 @@ export default (barSimpleData, callback) => {
 
             svg.append('text')
                 .attr({
-                    'dy' : '.32em',
-                    'class' : 'legend',
-                    'y' : (height + margin.bottom + margin.top) + 5,
-                    'x' : ((width + margin.left + margin.right) / 2) + 35,
-                    'text-rendering' : 'auto'
+                    'dy': '.32em',
+                    'class': 'legend',
+                    'y': (height + margin.bottom + margin.top) + 5,
+                    'x': ((width + margin.left + margin.right) / 2) + 35,
+                    'text-rendering': 'auto'
                 })
                 .text('Hits');
 
@@ -125,11 +134,14 @@ export default (barSimpleData, callback) => {
                 .data(data)
                 .enter()
                 .append('rect')
-                .attr('class', 'bar')
+                // .attr('class', 'bar')
                 .attr('x', d => x(d.label))
                 .attr('width', x.rangeBand())
                 .attr('y', d => y(d.val) - 1)
-                .attr('height', d => height - y(d.val));
+                .attr('height', d => height - y(d.val))
+                .attr("fill", (d) => {
+                    return color(d.label);
+                });
             try {
                 fs.writeFileSync(outputLocation, window.d3.select('.container').html());
                 callback(null, filename);
