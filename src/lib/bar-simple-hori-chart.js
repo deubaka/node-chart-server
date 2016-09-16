@@ -56,27 +56,27 @@ export default (barSimpleData, callback) => {
                     height: height + margin.bottom + margin.top + 50
                 });
 
-            svg.append('rect')
-                .attr({
-                    'id': `svg_${new Date().getTime()}`,
-                    'height': 10,
-                    'width': 10,
-                    'y': (height + margin.bottom + margin.top),
-                    'x': ((width + margin.left + margin.right) / 2),
-                    'fill': '#44586A',
-                    'shape-rendering': 'auto'
-                });
-
-            // svg.append('text')
+            // svg.append('rect')
             //     .attr({
-            //         'xml:space' : 'preserve',
-            //         'dy' : '.32em',
-            //         // 'class' : 'legend',
-            //         'y' : (height + margin.bottom + margin.top) + 5,
-            //         'x' : ((width + margin.left + margin.right) / 2) + 35,
-            //         'text-rendering': 'auto'
-            //     })
-            //     .text('Hits');
+            //         'id': `svg_${new Date().getTime()}`,
+            //         'height': 10,
+            //         'width': 10,
+            //         'y': (height + margin.bottom + margin.top),
+            //         'x': ((width + margin.left + margin.right) / 2),
+            //         'fill': '#44586A',
+            //         'shape-rendering': 'auto'
+            //     });
+
+            svg.append('text')
+                .attr({
+                    'xml:space' : 'preserve',
+                    'dy' : '.32em',
+                    'class' : 'legend',
+                    'y' : (height + margin.bottom + margin.top) + 5,
+                    'x' : ((width + margin.left + margin.right) / 2) + 35,
+                    'text-rendering': 'auto'
+                })
+                .text('Hits');
 
             svg.append('style').html(css);
             svg = svg.append('g')
