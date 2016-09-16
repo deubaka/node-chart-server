@@ -30,7 +30,7 @@ export default (donutData, callback) => {
     const colorRange = d3.scale
         .ordinal()
         .domain(donutData.map(function(d) { return d.label; }))
-        .range(colors.Swatch.Blue);
+        .range(colors.Swatch.Google);
     const color = colorRange;
 
     const filename = `donut_${new Date().getTime()}.svg`;
