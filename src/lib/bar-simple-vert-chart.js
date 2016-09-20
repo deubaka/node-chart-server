@@ -42,12 +42,11 @@ export default (barSimpleData, callback) => {
             const xAxis = d3.svg.axis()
                 .scale(x)
                 .orient('bottom')
-                .ticks(10);
+                .ticks(5);
 
             const yAxis = d3.svg.axis()
                 .scale(y)
-                .orient('left')
-                .ticks(10);
+                .orient('left');
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -56,13 +55,11 @@ export default (barSimpleData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left + margin.right + 50,
-                    height: height + margin.bottom + margin.top + 50
+                    width: width + margin.left + margin.right + 100,
+                    height: height + margin.bottom + margin.top + 100
                 });
 
             svg.append('style').html(css);
-
-            console.log(`** height=${height}, width=${width}`);
 
             svg.append('text')
                 .attr({
@@ -113,7 +110,12 @@ export default (barSimpleData, callback) => {
                 .attr('class', 'x axis')
                 .style()
                 .attr('transform', `translate(0,${height})`)
-                .call(xAxis);
+                .call(xAxis)
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-65)');
 
             svg.append('g')
                 .attr('class', 'y axis')

@@ -20,7 +20,7 @@ export default (barSimpleData, callback) => {
             window.d3 = d3.select(window.document);
             const colorRange = d3.scale
                 .ordinal()
-                .domain(barSimpleData.map((d) =>{
+                .domain(barSimpleData.map((d) => {
                     return d.label;
                 }))
                 .range(colors.Swatch.Google);
@@ -28,7 +28,12 @@ export default (barSimpleData, callback) => {
 
             const data = barSimpleData;
 
-            const margin = {top: 20, right: 20, bottom: 30, left: 80}, barWidth = 30, height = barWidth * data.length * 1.5, width = height * 2;
+            const margin = {
+                top: 20,
+                right: 20,
+                bottom: 30,
+                left: 80
+            }, barWidth = 30, height = barWidth * data.length * 1.5, width = height * 2;
 
             const x = d3.scale.linear()
                 .range([0, width]);
@@ -52,28 +57,17 @@ export default (barSimpleData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left + margin.right + 50,
-                    height: height + margin.bottom + margin.top + 50
+                    width: width + margin.left + margin.right + 100,
+                    height: height + margin.bottom + margin.top + 100
                 });
-
-            // svg.append('rect')
-            //     .attr({
-            //         'id': `svg_${new Date().getTime()}`,
-            //         'height': 10,
-            //         'width': 10,
-            //         'y': (height + margin.bottom + margin.top),
-            //         'x': ((width + margin.left + margin.right) / 2),
-            //         'fill': '#44586A',
-            //         'shape-rendering': 'auto'
-            //     });
 
             svg.append('text')
                 .attr({
-                    'xml:space' : 'preserve',
-                    'dy' : '.32em',
-                    'class' : 'legend',
-                    'y' : (height + margin.bottom + margin.top) + 5,
-                    'x' : ((width + margin.left + margin.right) / 2) + 35,
+                    'xml:space': 'preserve',
+                    'dy': '.32em',
+                    'class': 'legend',
+                    'y': (height + margin.bottom + margin.top) + 5,
+                    'x': ((width + margin.left + margin.right) / 2) + 35,
                     'text-rendering': 'auto'
                 })
                 .text('Hits');
@@ -130,7 +124,12 @@ export default (barSimpleData, callback) => {
                 .attr('class', 'x axis')
                 .style()
                 .attr('transform', `translate(50, ${height})`)
-                .call(xAxis);
+                .call(xAxis)
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-65)');
 
             svg.selectAll('.bar')
                 .data(data)
