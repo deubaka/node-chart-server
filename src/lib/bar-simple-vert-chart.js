@@ -74,7 +74,7 @@ export default (barSimpleData, callback) => {
                 .text('Hits');
 
             svg = svg.append('g')
-                .attr('transform', `translate(${width / 2},${height / 2})`);
+                .attr('transform', `translate(${margin.left},${margin.top})`);
 
             x.domain(data.map(d => d.label));
 
