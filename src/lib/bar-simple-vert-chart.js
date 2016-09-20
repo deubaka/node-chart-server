@@ -56,8 +56,7 @@ export default (barSimpleData, callback) => {
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
                     width: width + margin.left + margin.right + 50,
-                    height: height + margin.bottom + margin.top + 50,
-                    'margin-top': '200px'
+                    height: height + margin.bottom + margin.top + 50
                 });
 
             svg.append('style').html(css);
