@@ -41,12 +41,13 @@ export default (barSimpleData, callback) => {
 
             const xAxis = d3.svg.axis()
                 .scale(x)
-                .orient('bottom');
+                .orient('bottom')
+                .ticks(10);
 
             const yAxis = d3.svg.axis()
                 .scale(y)
                 .orient('left')
-                .ticks(5);
+                .ticks(10);
 
             let svg = window.d3.select('body')
                 .append('div')

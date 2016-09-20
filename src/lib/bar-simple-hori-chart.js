@@ -97,7 +97,7 @@ export default (barSimpleData, callback) => {
                 return d3.svg.axis()
                     .scale(y)
                     .orient('left')
-                    .ticks(5);
+                    .ticks(10);
             };
 
             svg.append('g')
