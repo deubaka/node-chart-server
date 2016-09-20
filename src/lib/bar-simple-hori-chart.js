@@ -39,7 +39,7 @@ export default (barSimpleData, callback) => {
             const xAxis = d3.svg.axis()
                 .scale(x)
                 .orient('bottom')
-                .ticks(10);
+                .ticks(5);
 
             const yAxis = d3.svg.axis()
                 .scale(y)

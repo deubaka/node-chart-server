@@ -22,7 +22,7 @@ export default (barSimpleData, callback) => {
 
             const colorRange = d3.scale
                 .ordinal()
-                .domain(barSimpleData.map((d) =>{
+                .domain(barSimpleData.map((d) => {
                     return d.label;
                 }))
                 .range(colors.Swatch.Google);
@@ -30,7 +30,7 @@ export default (barSimpleData, callback) => {
 
             const margin = {top: 20, right: 20, bottom: 30, left: 80},
                 barWidth = 30,
-                width = (barWidth * data.length * 4),
+                width = (barWidth * data.length * 2),
                 height = width / 2;
 
             const x = d3.scale.ordinal()
@@ -46,7 +46,7 @@ export default (barSimpleData, callback) => {
             const yAxis = d3.svg.axis()
                 .scale(y)
                 .orient('left')
-                .ticks(10);
+                .ticks(5);
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -56,34 +56,26 @@ export default (barSimpleData, callback) => {
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
                     width: width + margin.left + margin.right + 50,
-                    height: height + margin.bottom + margin.top + 50
+                    height: height + margin.bottom + margin.top + 50,
+                    'margin-top': '200px'
                 });
 
             svg.append('style').html(css);
 
-            // svg.append('rect')
-            //     .attr({
-            //         'id': `svg_${new Date().getTime()}`,
-            //         'height': 10,
-            //         'width': 10,
-            //         'y': (height + margin.bottom + margin.top),
-            //         'x': ((width + margin.left + margin.right) / 2),
-            //         'fill': '#44586A',
-            //         'shape-rendering': 'auto'
-            //     });
+            console.log(`** height=${height}, width=${width}`);
 
             svg.append('text')
                 .attr({
                     'dy': '.32em',
                     'class': 'legend',
-                    'y': (height + margin.bottom + margin.top) + 5,
+                    'y': (height + margin.bottom + margin.top) + 35,
                     'x': ((width + margin.left + margin.right) / 2) + 35,
                     'text-rendering': 'auto'
                 })
                 .text('Hits');
 
             svg = svg.append('g')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
+                .attr('transform', `translate(${width / 2},${height / 2})`);
 
             x.domain(data.map(d => d.label));
 
@@ -93,14 +85,13 @@ export default (barSimpleData, callback) => {
                 return d3.svg.axis()
                     .scale(x)
                     .orient('bottom')
-                    .ticks(5);
             };
 
             const yAxisGrid = () => {
                 return d3.svg.axis()
                     .scale(y)
                     .orient('left')
-                    .ticks(10);
+                    .ticks(5);
             };
 
             svg.append('g')
@@ -139,7 +130,7 @@ export default (barSimpleData, callback) => {
                 .attr('width', x.rangeBand())
                 .attr('y', d => y(d.val) - 1)
                 .attr('height', d => height - y(d.val))
-                .attr("fill", (d) => {
+                .attr('fill', (d) => {
                     return color(d.label);
                 });
             try {

@@ -25,12 +25,14 @@ text.legend {
 }
 
 .y.axis path {
-    stroke: #e6e6e6;
+    stroke:#e6e6e6;
+    shape-rendering: crispEdges;
 }
 
 .grid .tick {
     stroke: #e6e6e6;
     opacity: 0.7;
+    shape-rendering: crispEdges;
 }
 .grid path {
     stroke-width: 0;
