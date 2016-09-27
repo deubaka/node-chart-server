@@ -69,7 +69,7 @@ export default (barSimpleData, callback) => {
                     'x': ((width + margin.left + margin.right) / 2) + 35,
                     'text-rendering': 'auto'
                 })
-                .text('Hits');
+                .text('Events');
 
             svg = svg.append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);

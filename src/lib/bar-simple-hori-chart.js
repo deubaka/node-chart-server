@@ -70,7 +70,7 @@ export default (barSimpleData, callback) => {
                     'x': ((width + margin.left + margin.right) / 2) + 35,
                     'text-rendering': 'auto'
                 })
-                .text('Hits');
+                .text('Events');
 
             svg.append('style').html(css);
             svg = svg.append('g')
