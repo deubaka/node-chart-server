@@ -1,0 +1,20 @@
+<svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect stroke="#e5e5e5" id="svg_1" height="231" width="378" y="10" x="10" fill="#ffffff" rx="8" ry="8"/>
+        <text stroke="#e5e5e5" transform="matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_6" y="-3.53812" x="86.98959" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#ffffff">63% Yey!</text>
+   <text fill="#7f7f7f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="221.00498" y="13.18891" id="svg_2" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.5690387313175552,0,0,0.5690387313175552,68.23656248458946,86.27062061831263) " stroke="#e5e5e5">Sentiment Breakdown</text>
+   <text id="svg_7" stroke="#e5e5e5" transform="matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="-16.94168" x="-57.76233" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#ffffff">63% Yey!</text>
+        <rect fill="#2ecc82" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null"
+              x="26" y="108" width="206" height="29" id="svg_3" stroke="#ffffff"/>
+        <rect fill="#fc5e4e" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null"
+              x="231" y="108" width="141.00001" height="29" id="svg_4" stroke="#ffffff"/>
+        <text id="svg_8" stroke="#e5e5e5" transform="matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="-1.81538" x="97.82248" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#ffffff">63% :)</text>
+   <text id="svg_9" stroke="#e5e5e5" transform="matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="-1.827" x="467.32556" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#ffffff">37% :(</text>
+   <text id="svg_10" fill="#7f7f7f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="66.37362" y="-88.78181" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.5690387313175552,0,0,0.5690387313175552,68.23656248458946,86.27062061831263) " stroke="#e5e5e5">Reviews</text>
+   <text id="svg_11" fill="#7f7f7f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="379.18331" y="-88.78181" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="matrix(0.5690387313175552,0,0,0.5690387313175552,68.23656248458946,86.27062061831263) " stroke="#e5e5e5">Avg Stars</text>
+        <rect id="svg_12" height="75" width="346" y="150" x="26" stroke-linecap="null" stroke-linejoin="null"
+              stroke-dasharray="null" stroke="#efeded" fill="#f9f9f9"/>
+        <text xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_13" y="60" x="104" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#e5e5e5" fill="#4c4c4c">50</text>
+   <text id="svg_14" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="60" x="286.01563" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#e5e5e5" fill="#4c4c4c">4.3</text>
+    </g>
+</svg>
