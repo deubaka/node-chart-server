@@ -160,9 +160,9 @@ export default (reviewsScorecardData, callback) => {
                     'font-family' : 'Sans-serif',
                     'text-anchor': 'left',
                     'y': 180,
-                    'x' : 80,
+                    'x' : 40,
                     'height' : 60,
-                    'width' : 340,
+                    'width' : 250,
                     'stroke' : '#e5e5e5',
                     'stroke-width' : 0,
                     'fill' : '#4c4c4c'
