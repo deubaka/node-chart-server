@@ -10,7 +10,6 @@ export default (reviewsScorecardData, callback) => {
 
     const filename = `reviews-scorecard_${new Date().getTime()}.svg`;
 
-    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'reviews-scorecard.css'), 'utf-8');
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
     jsdom.env({
         html: '',
@@ -33,11 +32,10 @@ export default (reviewsScorecardData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left + margin.right,
-                    height: height + margin.bottom + margin.top
+                    width: width,
+                    height: height
                 });
 
-            svg.append('style').html(css);
             svg = svg.append('g');
 
             svg.append('rect')
@@ -48,6 +46,7 @@ export default (reviewsScorecardData, callback) => {
                     'y': margin.top,
                     'x': margin.left,
                     'fill': '#ffffff',
+                    'shape-rendering': 'crispEdges',
                     'rx': 4,
                     'ry': 4
                 });
@@ -67,7 +66,8 @@ export default (reviewsScorecardData, callback) => {
                     'width': positiveWidth,
                     'y': 108,
                     'x': positiveX,
-                    'fill': '#2ecc82'
+                    'fill': '#2ecc82',
+                    'shape-rendering': 'crispEdges',
                 });
 
             // const positiveTextX = (positiveX + positiveWidth) / 2;
@@ -95,7 +95,8 @@ export default (reviewsScorecardData, callback) => {
                     'width': neutralWidth,
                     'y': 108,
                     'x': neutralX,
-                    'fill': '#FC984E'
+                    'fill': '#FC984E',
+                    'shape-rendering': 'crispEdges'
                 });
 
             // const neutralTextX = (neutralWidth + neutralX) + positiveX;
@@ -122,7 +123,8 @@ export default (reviewsScorecardData, callback) => {
                     'width': negativeWidth,
                     'y': 108,
                     'x': negativeX,
-                    'fill': '#fc5e4e'
+                    'fill': '#fc5e4e',
+                    'shape-rendering': 'crispEdges'
                 });
 
             // const negativeTextX = (negativeWidth + negativeX) + neutralX;
@@ -150,7 +152,8 @@ export default (reviewsScorecardData, callback) => {
                     'x': positiveX,
                     'fill': '#f9f9f9',
                     'rx': 4,
-                    'ry': 4
+                    'ry': 4,
+                    'shape-rendering': 'crispEdges'
                 });
 
             svg.append('text')
@@ -160,8 +163,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 175,
                     'x': positiveX + 35,
-                    'stroke': '#7f7f7f',
-                    'stroke-width': 0,
                     'fill': '#7f7f7f'
                 })
                 .text('Version');
@@ -173,8 +174,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 175,
                     'x': positiveX + 115,
-                    'stroke': '#4c4c4c',
-                    'stroke-width': 0,
                     'fill': '#4c4c4c'
                 })
                 .text(data.topVersion);
@@ -186,41 +185,40 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 210,
                     'x': positiveX + 45,
-                    'stroke': '#7f7f7f',
-                    'stroke-width': 0,
                     'fill': '#7f7f7f'
                 })
                 .text('Top Words');
 
             const rectIndeces = [];
-            for (var count = 0; count < data.topWords.length; count++) {
-                // Others Comment
-                rectIndeces[count] = positiveX + (110 * count) + (count === 0 ? 10 : 0)
-                svg.append('rect')
-                    .attr({
-                        'stroke': '#efeded',
-                        'stroke-width': 1,
-                        'height': 30,
-                        'width': 110,
-                        'y': 225,
-                        'x': rectIndeces[count],
-                        'fill': '#f9f9f9'
-                    });
+            if (data.hasOwnProperty('topWords') && data.topWords instanceof Array) {
+                for (var count = 0; count < data.topWords.length; count++) {
+                    // Others Comment
+                    rectIndeces[count] = positiveX + (110 * count) + (count === 0 ? 10 : 0)
+                    svg.append('rect')
+                        .attr({
+                            'stroke': '#efeded',
+                            'stroke-width': 1,
+                            'height': 30,
+                            'width': 110,
+                            'y': 225,
+                            'x': rectIndeces[count],
+                            'fill': '#f9f9f9',
+                            'shape-rendering': 'crispEdges'
+                        });
 
-                svg.append('text')
-                    .attr({
-                        'height': 30,
-                        'width': 110,
-                        'y': 245,
-                        'x': rectIndeces[count] + (55),
-                        'font-size': 12,
-                        'font-family': 'Sans-serif',
-                        'text-anchor': 'middle',
-                        'stroke': '#4c4c4c',
-                        'stroke-width': 0,
-                        'fill': '#4c4c4c'
-                    })
-                    .text(data.topWords[count]);
+                    svg.append('text')
+                        .attr({
+                            'height': 30,
+                            'width': 110,
+                            'y': 245,
+                            'x': rectIndeces[count] + (55),
+                            'font-size': 12,
+                            'font-family': 'Sans-serif',
+                            'text-anchor': 'middle',
+                            'fill': '#4c4c4c'
+                        })
+                        .text(data.topWords[count]);
+                }
             }
 
             // Sentiment Label
@@ -231,8 +229,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 100,
                     'x': width / 2,
-                    'stroke': '#e5e5e5',
-                    'stroke-width': 0,
                     'fill': '#7f7f7f',
                     'xml:space': 'preserve'
                 })
@@ -246,8 +242,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': (width / 2) - 100,
-                    'stroke': '#7F7F7F',
-                    'stroke-width': 0,
                     'fill': '#7F7F7F',
                     'xml:space': 'preserve'
                 })
@@ -263,8 +257,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 65,
                     'x': (width / 2) - 100,
-                    'stroke': gradeColor.color,
-                    'stroke-width': 0,
                     'fill': gradeColor.color,
                     'xml:space': 'preserve'
                 })
@@ -278,8 +270,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': width / 2,
-                    'stroke': '#7F7F7F',
-                    'stroke-width': 0,
                     'fill': '#7F7F7F',
                     'xml:space': 'preserve'
                 })
@@ -293,8 +283,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 65,
                     'x': width / 2,
-                    'stroke': '#4c4c4c',
-                    'stroke-width': 0,
                     'fill': '#4c4c4c',
                     'xml:space': 'preserve'
                 })
@@ -308,8 +296,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': (width / 2) + 100,
-                    'stroke': '#7F7F7F',
-                    'stroke-width': 0,
                     'fill': '#7F7F7F',
                     'xml:space': 'preserve'
                 })
@@ -324,8 +310,6 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 65,
                     'x': (width / 2) + 100,
-                    'stroke': '#4c4c4c',
-                    'stroke-width': 0,
                     'fill': '#4c4c4c',
                     'xml:space': 'preserve'
                 })
