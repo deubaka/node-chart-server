@@ -173,7 +173,7 @@ export default (reviewsScorecardData, callback) => {
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 175,
-                    'x': positiveX + 200,
+                    'x': positiveX + 150,
                     'fill': '#4c4c4c'
                 })
                 .text(data.topVersion);
