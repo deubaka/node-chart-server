@@ -2,7 +2,6 @@ import fs from 'fs';
 import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
-import colors from '../res/color';
 
 export default (reviewsScorecardData, callback) => {
     if (!reviewsScorecardData) {
@@ -25,7 +24,7 @@ export default (reviewsScorecardData, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 250, width = 400;
+            }, height = 320, width = 400;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -43,32 +42,32 @@ export default (reviewsScorecardData, callback) => {
 
             svg.append('rect')
                 .attr({
-                    'stroke' : '#e5e5e5',
-                    'height' : 205,
-                    'width' : 380,
-                    'y': 10,
-                    'x' : 10,
-                    'fill' : '#ffffff',
-                    'rx' : 4,
-                    'ry' : 4
+                    'stroke': '#e5e5e5',
+                    'height': height - margin.bottom - margin.top - 25,
+                    'width': width - margin.right - margin.left,
+                    'y': margin.top,
+                    'x': margin.left,
+                    'fill': '#ffffff',
+                    'rx': 4,
+                    'ry': 4
                 });
 
-            const maxSentimentBar = 117 * 3;
-            const positiveWidth = (data.positivePercentage / 100) * maxSentimentBar;
-            const neutralWidth = (data.neutralPercentage / 100) * maxSentimentBar;
-            const negativeWidth = (data.negativePercentage / 100) * maxSentimentBar;
+            const maxSentimentBar = width - (3 * margin.left) - (3 * margin.right);
+            const positiveWidth = Math.ceil((data.positivePercentage / 100) * maxSentimentBar);
+            const neutralWidth = Math.ceil((data.neutralPercentage / 100) * maxSentimentBar);
+            const negativeWidth = Math.ceil((data.negativePercentage / 100) * maxSentimentBar);
 
             // Positive
-            const positiveX = 26;
+            const positiveX = (width - maxSentimentBar) / 2;
             svg.append('rect')
                 .attr({
-                    'stroke' : '#ffffff',
-                    'stroke-width' : 0,
-                    'height' : 30,
-                    'width' : positiveWidth,
+                    'stroke': '#ffffff',
+                    'stroke-width': 0,
+                    'height': 30,
+                    'width': positiveWidth,
                     'y': 108,
-                    'x' : positiveX,
-                    'fill' : '#2ecc82'
+                    'x': positiveX,
+                    'fill': '#2ecc82'
                 });
 
             // const positiveTextX = (positiveX + positiveWidth) / 2;
@@ -87,16 +86,16 @@ export default (reviewsScorecardData, callback) => {
             //     .text(`${data.positivePercentage}% :)`);
 
             // Neutral
-            const neutralX = positiveX + positiveWidth;
+            const neutralX = positiveX + positiveWidth + 1;
             svg.append('rect')
                 .attr({
-                    'stroke' : '#ffffff',
-                    'stroke-width' : 0,
-                    'height' : 30,
-                    'width' : neutralWidth,
+                    'stroke': '#ffffff',
+                    'stroke-width': 0,
+                    'height': 30,
+                    'width': neutralWidth,
                     'y': 108,
-                    'x' : neutralX,
-                    'fill' : '#FC984E'
+                    'x': neutralX,
+                    'fill': '#FC984E'
                 });
 
             // const neutralTextX = (neutralWidth + neutralX) + positiveX;
@@ -114,16 +113,16 @@ export default (reviewsScorecardData, callback) => {
             //     .text(`${data.neutralPercentage}% :|`);
 
             // Negative
-            const negativeX = neutralX + neutralWidth;
+            const negativeX = neutralX + neutralWidth + 1;
             svg.append('rect')
                 .attr({
-                    'stroke' : '#ffffff',
-                    'stroke-width' : 0,
-                    'height' : 30,
-                    'width' : negativeWidth,
+                    'stroke': '#ffffff',
+                    'stroke-width': 0,
+                    'height': 30,
+                    'width': negativeWidth,
                     'y': 108,
-                    'x' : negativeX,
-                    'fill' : '#fc5e4e'
+                    'x': negativeX,
+                    'fill': '#fc5e4e'
                 });
 
             // const negativeTextX = (negativeWidth + negativeX) + neutralX;
@@ -140,93 +139,179 @@ export default (reviewsScorecardData, callback) => {
             //     })
             //     .text(`${data.negativePercentage}% :(`);
 
-            // Top Comment
+            // Others Comment
             svg.append('rect')
                 .attr({
-                    'stroke' : '#efeded',
-                    'stroke-width' : 1,
-                    'height' : 50,
-                    'width' : 350,
+                    'stroke': '#efeded',
+                    'stroke-width': 1,
+                    'height': 115,
+                    'width': width - (3 * margin.left) - (3 * margin.right),
                     'y': 150,
-                    'x' : 26,
-                    'fill' : '#f9f9f9',
-                    'rx' : 4,
-                    'ry' : 4
+                    'x': positiveX,
+                    'fill': '#f9f9f9',
+                    'rx': 4,
+                    'ry': 4
                 });
 
             svg.append('text')
                 .attr({
-                    'font-size' : 12,
-                    'font-family' : 'Sans-serif',
-                    'text-anchor': 'left',
-                    'y': 180,
-                    'x' : 40,
-                    'height' : 60,
-                    'width' : 250,
-                    'stroke' : '#e5e5e5',
-                    'stroke-width' : 0,
-                    'fill' : '#4c4c4c'
+                    'font-size': 15,
+                    'font-family': 'Sans-serif',
+                    'text-anchor': 'middle',
+                    'y': 175,
+                    'x': positiveX + 35,
+                    'stroke': '#7f7f7f',
+                    'stroke-width': 0,
+                    'fill': '#7f7f7f'
                 })
-                .text(data.topComment);
+                .text('Version');
+
+            svg.append('text')
+                .attr({
+                    'font-size': 15,
+                    'font-family': 'Sans-serif',
+                    'text-anchor': 'middle',
+                    'y': 175,
+                    'x': positiveX + 115,
+                    'stroke': '#4c4c4c',
+                    'stroke-width': 0,
+                    'fill': '#4c4c4c'
+                })
+                .text(data.topVersion);
+
+            svg.append('text')
+                .attr({
+                    'font-size': 15,
+                    'font-family': 'Sans-serif',
+                    'text-anchor': 'middle',
+                    'y': 210,
+                    'x': positiveX + 45,
+                    'stroke': '#7f7f7f',
+                    'stroke-width': 0,
+                    'fill': '#7f7f7f'
+                })
+                .text('Top Words');
+
+            const rectIndeces = [];
+            for (var count = 0; count < data.topWords.length; count++) {
+                // Others Comment
+                rectIndeces[count] = positiveX + (110 * count) + (count === 0 ? 10 : 0)
+                svg.append('rect')
+                    .attr({
+                        'stroke': '#efeded',
+                        'stroke-width': 1,
+                        'height': 30,
+                        'width': 110,
+                        'y': 225,
+                        'x': rectIndeces[count],
+                        'fill': '#f9f9f9'
+                    });
+
+                svg.append('text')
+                    .attr({
+                        'height': 30,
+                        'width': 110,
+                        'y': 245,
+                        'x': rectIndeces[count] + (55),
+                        'font-size': 12,
+                        'font-family': 'Sans-serif',
+                        'text-anchor': 'middle',
+                        'stroke': '#4c4c4c',
+                        'stroke-width': 0,
+                        'fill': '#4c4c4c'
+                    })
+                    .text(data.topWords[count]);
+            }
 
             // Sentiment Label
             svg.append('text')
                 .attr({
-                    'font-size' : 14,
-                    'font-family' : 'Sans-serif',
+                    'font-size': 14,
+                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y' : 100,
-                    'x' : width / 2,
-                    'stroke' : '#e5e5e5',
-                    'stroke-width' : 0,
-                    'fill' : '#7f7f7f',
-                    'xml:space' : 'preserve'
+                    'y': 100,
+                    'x': width / 2,
+                    'stroke': '#e5e5e5',
+                    'stroke-width': 0,
+                    'fill': '#7f7f7f',
+                    'xml:space': 'preserve'
                 })
                 .text('Sentiment Breakdown');
 
+            // Sentiment Score Label
+            svg.append('text')
+                .attr({
+                    'font-size': 14,
+                    'font-family': 'Sans-serif',
+                    'text-anchor': 'middle',
+                    'y': 40,
+                    'x': (width / 2) - 100,
+                    'stroke': '#7F7F7F',
+                    'stroke-width': 0,
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve'
+                })
+                .text('Sentiment Score');
+
+            const gradeColor = getGradeAndColorForPercentage(data.positivePercentage);
+
+            // Reviews Value
+            svg.append('text')
+                .attr({
+                    'font-size': 22,
+                    'font-family': 'Sans-serif',
+                    'text-anchor': 'middle',
+                    'y': 65,
+                    'x': (width / 2) - 100,
+                    'stroke': gradeColor.color,
+                    'stroke-width': 0,
+                    'fill': gradeColor.color,
+                    'xml:space': 'preserve'
+                })
+                .text(gradeColor.grade);
 
             // Reviews Label
             svg.append('text')
                 .attr({
-                    'font-size' : 22,
-                    'font-family' : 'Sans-serif',
+                    'font-size': 14,
+                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y' : 40,
-                    'x' : width / 3,
-                    'stroke' : '#7f7f7f',
-                    'stroke-width' : 0,
-                    'fill' : '#7f7f7f',
-                    'xml:space' : 'preserve'
+                    'y': 40,
+                    'x': width / 2,
+                    'stroke': '#7F7F7F',
+                    'stroke-width': 0,
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve'
                 })
                 .text('Reviews');
 
             // Reviews Value
             svg.append('text')
                 .attr({
-                    'font-size' : 20,
-                    'font-family' : 'Sans-serif',
+                    'font-size': 22,
+                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y' : 65,
-                    'x' : width / 3,
-                    'stroke' : '#e5e5e5',
-                    'stroke-width' : 0,
-                    'fill' : '#4c4c4c',
-                    'xml:space' : 'preserve'
+                    'y': 65,
+                    'x': width / 2,
+                    'stroke': '#4c4c4c',
+                    'stroke-width': 0,
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve'
                 })
                 .text(reviewsScorecardData.countRatings);
 
             // Avg Label
             svg.append('text')
                 .attr({
-                    'font-size' : 22,
-                    'font-family' : 'Sans-serif',
+                    'font-size': 14,
+                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y' : 40,
-                    'x' : width * .67,
-                    'stroke' : '#7F7F7F',
-                    'stroke-width' : 0,
-                    'fill' : '#7f7f7f',
-                    'xml:space' : 'preserve'
+                    'y': 40,
+                    'x': (width / 2) + 100,
+                    'stroke': '#7F7F7F',
+                    'stroke-width': 0,
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve'
                 })
                 .text('Avg Stars');
 
@@ -234,15 +319,15 @@ export default (reviewsScorecardData, callback) => {
             // Avg Value
             svg.append('text')
                 .attr({
-                    'font-size' : 20,
-                    'font-family' : 'Sans-serif',
+                    'font-size': 22,
+                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y' : 65,
-                    'x' : width * .67,
-                    'stroke' : '#e5e5e5',
-                    'stroke-width' : 0,
-                    'fill' : '#4c4c4c',
-                    'xml:space' : 'preserve'
+                    'y': 65,
+                    'x': (width / 2) + 100,
+                    'stroke': '#4c4c4c',
+                    'stroke-width': 0,
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve'
                 })
                 .text(reviewsScorecardData.avgRatings);
 
@@ -255,3 +340,56 @@ export default (reviewsScorecardData, callback) => {
         }
     });
 };
+
+function getGradeAndColorForPercentage(percentage) {
+    let gradeColor = {};
+    if (percentage <= 100 && percentage >= 80) {
+        gradeColor.color = '#2ecc82';
+
+        if (percentage >= 95) {
+            gradeColor.grade = 'A+';
+        } else if (percentage < 95 && percentage > 85) {
+            gradeColor.grade = 'A';
+        } else if (percentage <= 85) {
+            gradeColor.grade = 'A-';
+        }
+    } else if (percentage <= 80 && percentage >= 50) {
+        gradeColor.color = '#2ecc82';
+
+        if (percentage >= 75) {
+            gradeColor.grade = 'B+';
+        } else if (percentage < 75 && percentage > 60) {
+            gradeColor.grade = 'B';
+        } else if (percentage <= 60) {
+            gradeColor.grade = 'B-';
+        }
+    } else if (percentage <= 60 && percentage >= 30) {
+        gradeColor.color = '#FC984E';
+
+        if (percentage >= 55) {
+            gradeColor.grade = 'C+';
+        } else if (percentage < 55 && percentage > 40) {
+            gradeColor.grade = 'C';
+        } else if (percentage <= 40) {
+            gradeColor.grade = 'C-';
+        }
+    } else if (percentage <= 30 && percentage >= 20) {
+        gradeColor.color = '#FC984E';
+
+        if (percentage >= 26) {
+            gradeColor.grade = 'D+';
+        } else if (percentage < 26 && percentage > 23) {
+            gradeColor.grade = 'D';
+        } else if (percentage <= 23) {
+            gradeColor.grade = 'D-';
+        }
+    } else if (percentage <= 20 && percentage >= 10) {
+        gradeColor.color = '#fc5e4e';
+        gradeColor.grade = 'E';
+    } else if (percentage <= 10 && percentage >= 0) {
+        gradeColor.color = '#fc5e4e';
+        gradeColor.grade = 'F';
+    }
+
+    return gradeColor;
+}
