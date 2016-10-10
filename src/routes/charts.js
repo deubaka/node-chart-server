@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
                 if (err) {
                     res.status(500).json({success: false, result: err.message});
                 } else {
-                    s3Helper.uploadChart(path.join(__dirname, '..', '..', 'gen', chartLocation), (type === chartFactory.Type.PIE || type === chartFactory.Type.DONUT), (err, s3Location) => {
+                    s3Helper.uploadChart(path.join(__dirname, '..', '..', 'gen', chartLocation), (type === chartFactory.Type.PIE || type === chartFactory.Type.DONUT || type === chartFactory.Type.REVIEWS_SCORECARD), (err, s3Location) => {
                         if (err) {
                             res.status(400).json({success: false, result: err.message});
                         } else {
