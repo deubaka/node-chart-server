@@ -253,7 +253,8 @@ export default (reviewsScorecardData, callback) => {
                 })
                 .text('Sentiment Score');
 
-            const gradeColor = getGradeAndColorForPercentage(data.positivePercentage);
+            const score = 2 * ((data.positivePercentage * 0.5) + (data.neutralPercentage * 0.30) + (data.negativePercentage * 0.20));
+            const gradeColor = getGradeAndColorForScore(score);
 
             // Reviews Value
             svg.append('text')
@@ -331,52 +332,52 @@ export default (reviewsScorecardData, callback) => {
     });
 };
 
-function getGradeAndColorForPercentage(percentage) {
+function getGradeAndColorForScore(score) {
     let gradeColor = {};
-    if (percentage <= 100 && percentage >= 80) {
+    if (score <= 100 && score >= 80) {
         gradeColor.color = '#2ecc82';
 
-        if (percentage >= 95) {
+        if (score >= 95) {
             gradeColor.grade = 'A+';
-        } else if (percentage < 95 && percentage > 85) {
+        } else if (score < 95 && score > 85) {
             gradeColor.grade = 'A';
-        } else if (percentage <= 85) {
+        } else if (score <= 85) {
             gradeColor.grade = 'A-';
         }
-    } else if (percentage <= 80 && percentage >= 50) {
+    } else if (score <= 80 && score >= 60) {
         gradeColor.color = '#2ecc82';
 
-        if (percentage >= 75) {
+        if (score >= 75) {
             gradeColor.grade = 'B+';
-        } else if (percentage < 75 && percentage > 60) {
+        } else if (score < 75 && score > 60) {
             gradeColor.grade = 'B';
-        } else if (percentage <= 60) {
+        } else if (score <= 60) {
             gradeColor.grade = 'B-';
         }
-    } else if (percentage <= 60 && percentage >= 30) {
+    } else if (score <= 60 && score >= 30) {
         gradeColor.color = '#FC984E';
 
-        if (percentage >= 55) {
+        if (score >= 55) {
             gradeColor.grade = 'C+';
-        } else if (percentage < 55 && percentage > 40) {
+        } else if (score < 55 && score > 40) {
             gradeColor.grade = 'C';
-        } else if (percentage <= 40) {
+        } else if (score <= 40) {
             gradeColor.grade = 'C-';
         }
-    } else if (percentage <= 30 && percentage >= 20) {
+    } else if (score <= 30 && score >= 20) {
         gradeColor.color = '#FC984E';
 
-        if (percentage >= 26) {
+        if (score >= 26) {
             gradeColor.grade = 'D+';
-        } else if (percentage < 26 && percentage > 23) {
+        } else if (score < 26 && score > 23) {
             gradeColor.grade = 'D';
-        } else if (percentage <= 23) {
+        } else if (score <= 23) {
             gradeColor.grade = 'D-';
         }
-    } else if (percentage <= 20 && percentage >= 10) {
+    } else if (score <= 20 && score >= 10) {
         gradeColor.color = '#fc5e4e';
         gradeColor.grade = 'E';
-    } else if (percentage <= 10 && percentage >= 0) {
+    } else if (score <= 10 && score >= 0) {
         gradeColor.color = '#fc5e4e';
         gradeColor.grade = 'F';
     }
