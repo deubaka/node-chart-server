@@ -177,7 +177,7 @@ export default (reviewsScorecardData, callback) => {
                 .attr({
                     'font-size': 15,
                     'font-family': 'Sans-serif',
-                    'text-anchor': 'left',
+                    'text-anchor': 'middle',
                     'y': 175,
                     'x': positiveX + 150,
                     'fill': '#4c4c4c'
@@ -190,7 +190,7 @@ export default (reviewsScorecardData, callback) => {
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 210,
-                    'x': positiveX + 45,
+                    'x': positiveX + 58,
                     'fill': '#7f7f7f'
                 })
                 .text('Top Keywords');
