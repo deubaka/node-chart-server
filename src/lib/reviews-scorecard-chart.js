@@ -23,7 +23,7 @@ export default (reviewsScorecardData, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 320, width = 400;
+            }, height = 295, width = 400;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -41,7 +41,7 @@ export default (reviewsScorecardData, callback) => {
             svg.append('rect')
                 .attr({
                     'stroke': '#e5e5e5',
-                    'height': height - margin.bottom - margin.top - 25,
+                    'height': height - margin.bottom - margin.top,
                     'width': width - margin.right - margin.left,
                     'y': margin.top,
                     'x': margin.left,
@@ -58,17 +58,19 @@ export default (reviewsScorecardData, callback) => {
 
             // Positive
             const positiveX = (width - maxSentimentBar) / 2;
-            svg.append('rect')
-                .attr({
-                    'stroke': '#ffffff',
-                    'stroke-width': 0,
-                    'height': 30,
-                    'width': positiveWidth,
-                    'y': 108,
-                    'x': positiveX,
-                    'fill': '#2ecc82',
-                    'shape-rendering': 'crispEdges',
-                });
+            if (data.positivePercentage > 0) {
+                svg.append('rect')
+                    .attr({
+                        'stroke': '#ffffff',
+                        'stroke-width': 0,
+                        'height': 30,
+                        'width': positiveWidth,
+                        'y': 108,
+                        'x': positiveX,
+                        'fill': '#2ecc82',
+                        'shape-rendering': 'crispEdges',
+                    });
+            }
 
             // const positiveTextX = (positiveX + positiveWidth) / 2;
             // svg.append('text')
@@ -87,17 +89,19 @@ export default (reviewsScorecardData, callback) => {
 
             // Neutral
             const neutralX = positiveX + positiveWidth + 1;
-            svg.append('rect')
-                .attr({
-                    'stroke': '#ffffff',
-                    'stroke-width': 0,
-                    'height': 30,
-                    'width': neutralWidth,
-                    'y': 108,
-                    'x': neutralX,
-                    'fill': '#FC984E',
-                    'shape-rendering': 'crispEdges'
-                });
+            if (data.neutralPercentage > 0) {
+                svg.append('rect')
+                    .attr({
+                        'stroke': '#ffffff',
+                        'stroke-width': 0,
+                        'height': 30,
+                        'width': neutralWidth,
+                        'y': 108,
+                        'x': neutralX,
+                        'fill': '#FC984E',
+                        'shape-rendering': 'crispEdges'
+                    });
+            }
 
             // const neutralTextX = (neutralWidth + neutralX) + positiveX;
             // svg.append('text')
@@ -115,17 +119,19 @@ export default (reviewsScorecardData, callback) => {
 
             // Negative
             const negativeX = neutralX + neutralWidth + 1;
-            svg.append('rect')
-                .attr({
-                    'stroke': '#ffffff',
-                    'stroke-width': 0,
-                    'height': 30,
-                    'width': negativeWidth,
-                    'y': 108,
-                    'x': negativeX,
-                    'fill': '#fc5e4e',
-                    'shape-rendering': 'crispEdges'
-                });
+            if (data.negativePercentage > 0) {
+                svg.append('rect')
+                    .attr({
+                        'stroke': '#ffffff',
+                        'stroke-width': 0,
+                        'height': 30,
+                        'width': negativeWidth,
+                        'y': 108,
+                        'x': negativeX,
+                        'fill': '#fc5e4e',
+                        'shape-rendering': 'crispEdges'
+                    });
+            }
 
             // const negativeTextX = (negativeWidth + negativeX) + neutralX;
             // svg.append('text')
@@ -171,7 +177,7 @@ export default (reviewsScorecardData, callback) => {
                 .attr({
                     'font-size': 15,
                     'font-family': 'Sans-serif',
-                    'text-anchor': 'middle',
+                    'text-anchor': 'left',
                     'y': 175,
                     'x': positiveX + 150,
                     'fill': '#4c4c4c'
@@ -187,7 +193,7 @@ export default (reviewsScorecardData, callback) => {
                     'x': positiveX + 45,
                     'fill': '#7f7f7f'
                 })
-                .text('Top Words');
+                .text('Top Keywords');
 
             const rectIndeces = [];
             if (data.hasOwnProperty('topWords') && data.topWords instanceof Array) {
@@ -202,7 +208,7 @@ export default (reviewsScorecardData, callback) => {
                             'width': 110,
                             'y': 225,
                             'x': rectIndeces[count],
-                            'fill': '#f9f9f9',
+                            'fill': '#fcfcfc',
                             'shape-rendering': 'crispEdges'
                         });
 
