@@ -8,8 +8,9 @@ export default (reviewsScorecardData, callback) => {
         return callback(new Error('No data to work on'));
     }
 
-    const filename = `reviews-scorecard_${new Date().getTime()}.svg`;
+    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'review-scorecard.css'), 'utf-8');
 
+    const filename = `reviews-scorecard_${new Date().getTime()}.svg`;
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
     jsdom.env({
         html: '',
@@ -23,7 +24,7 @@ export default (reviewsScorecardData, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 295, width = 400;
+            }, height = 250, width = 500;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -36,6 +37,8 @@ export default (reviewsScorecardData, callback) => {
                     height: height
                 });
 
+            svg.append('style').html(css);
+
             svg = svg.append('g');
 
             svg.append('rect')
@@ -47,8 +50,8 @@ export default (reviewsScorecardData, callback) => {
                     'x': margin.left,
                     'fill': '#ffffff',
                     'shape-rendering': 'crispEdges',
-                    'rx': 4,
-                    'ry': 4
+                    'rx': 6,
+                    'ry': 6
                 });
 
             const maxSentimentBar = width - (3 * margin.left) - (3 * margin.right);
@@ -147,40 +150,16 @@ export default (reviewsScorecardData, callback) => {
             //     })
             //     .text(`${data.negativePercentage}% :(`);
 
-            // Others Comment
-            svg.append('rect')
-                .attr({
-                    'stroke': '#efeded',
-                    'stroke-width': 1,
-                    'height': 115,
-                    'width': width - (3 * margin.left) - (3 * margin.right),
-                    'y': 150,
-                    'x': positiveX,
-                    'fill': '#f9f9f9',
-                    'rx': 4,
-                    'ry': 4,
-                    'shape-rendering': 'crispEdges'
-                });
-
             svg.append('text')
                 .attr({
                     'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y': 175,
-                    'x': positiveX + 35,
-                    'fill': '#7f7f7f'
-                })
-                .text('Version');
-
-            svg.append('text')
-                .attr({
-                    'font-size': 15,
-                    'font-family': 'Sans-serif',
-                    'text-anchor': 'middle',
-                    'y': 175,
-                    'x': positiveX + 150,
-                    'fill': '#4c4c4c'
+                    'y': 160,
+                    'x': width / 2,
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve',
+                    'class' :'light'
                 })
                 .text(data.topVersion);
 
@@ -189,9 +168,11 @@ export default (reviewsScorecardData, callback) => {
                     'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y': 210,
-                    'x': positiveX + 58,
-                    'fill': '#7f7f7f'
+                    'y': 190,
+                    'x': width / 2,
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve',
+                    'class' :'bold'
                 })
                 .text('Top Keywords');
 
@@ -199,16 +180,16 @@ export default (reviewsScorecardData, callback) => {
             if (data.hasOwnProperty('topWords') && data.topWords instanceof Array) {
                 for (var count = 0; count < data.topWords.length; count++) {
                     // Others Comment
-                    rectIndeces[count] = positiveX + (110 * count) + (count === 0 ? 10 : 0)
+                    rectIndeces[count] = ((width - (110 * data.topWords.length)) / 2) + (110 * count) + (count === 0 ? 10 : 0)
                     svg.append('rect')
                         .attr({
-                            'stroke': '#efeded',
-                            'stroke-width': 1,
                             'height': 30,
                             'width': 110,
-                            'y': 225,
+                            'y': 200,
                             'x': rectIndeces[count],
-                            'fill': '#fcfcfc',
+                            'fill' : getColorForSentimentScore(data.topWords[count].sentimentScore),
+                            'stroke' : '#fff',
+                            'stroke-width' : 1,
                             'shape-rendering': 'crispEdges'
                         });
 
@@ -216,40 +197,44 @@ export default (reviewsScorecardData, callback) => {
                         .attr({
                             'height': 30,
                             'width': 110,
-                            'y': 245,
+                            'y': 220,
                             'x': rectIndeces[count] + (55),
                             'font-size': 12,
                             'font-family': 'Sans-serif',
                             'text-anchor': 'middle',
-                            'fill': '#4c4c4c'
+                            'fill': '#fff',
+                            'xml:space': 'preserve',
+                            'class' :'bold'
                         })
-                        .text(data.topWords[count]);
+                        .text(data.topWords[count].word);
                 }
             }
 
             // Sentiment Label
             svg.append('text')
                 .attr({
-                    'font-size': 14,
+                    'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 100,
                     'x': width / 2,
-                    'fill': '#7f7f7f',
-                    'xml:space': 'preserve'
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve',
+                    'class' :'bold'
                 })
                 .text('Sentiment Breakdown');
 
             // Sentiment Score Label
             svg.append('text')
                 .attr({
-                    'font-size': 14,
+                    'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 40,
-                    'x': (width / 2) - 100,
-                    'fill': '#7F7F7F',
-                    'xml:space': 'preserve'
+                    'x': (width / 2) - 150,
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve',
+                    'class' :'bold'
                 })
                 .text('Sentiment Score');
 
@@ -263,22 +248,24 @@ export default (reviewsScorecardData, callback) => {
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 65,
-                    'x': (width / 2) - 100,
+                    'x': (width / 2) - 150,
                     'fill': gradeColor.color,
-                    'xml:space': 'preserve'
+                    'xml:space': 'preserve',
+                    'class' :'light'
                 })
                 .text(gradeColor.grade);
 
             // Reviews Label
             svg.append('text')
                 .attr({
-                    'font-size': 14,
+                    'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': width / 2,
-                    'fill': '#7F7F7F',
-                    'xml:space': 'preserve'
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve',
+                    'class' :'bold'
                 })
                 .text('Reviews');
 
@@ -290,21 +277,23 @@ export default (reviewsScorecardData, callback) => {
                     'text-anchor': 'middle',
                     'y': 65,
                     'x': width / 2,
-                    'fill': '#4c4c4c',
-                    'xml:space': 'preserve'
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve',
+                    'class' :'light'
                 })
                 .text(reviewsScorecardData.countRatings);
 
             // Avg Label
             svg.append('text')
                 .attr({
-                    'font-size': 14,
+                    'font-size': 15,
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 40,
-                    'x': (width / 2) + 100,
-                    'fill': '#7F7F7F',
-                    'xml:space': 'preserve'
+                    'x': (width / 2) + 150,
+                    'fill': '#4c4c4c',
+                    'xml:space': 'preserve',
+                    'class' :'bold'
                 })
                 .text('Avg Stars');
 
@@ -316,9 +305,10 @@ export default (reviewsScorecardData, callback) => {
                     'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 65,
-                    'x': (width / 2) + 100,
-                    'fill': '#4c4c4c',
-                    'xml:space': 'preserve'
+                    'x': (width / 2) + 150,
+                    'fill': '#7F7F7F',
+                    'xml:space': 'preserve',
+                    'class' :'light'
                 })
                 .text(reviewsScorecardData.avgRatings);
 
@@ -383,4 +373,17 @@ function getGradeAndColorForScore(score) {
     }
 
     return gradeColor;
+}
+
+function getColorForSentimentScore(sentimentScore) {
+    switch (sentimentScore) {
+        case 0:
+            return '#FC984E';
+        case 1:
+            return '#2ecc82';
+        case -1:
+            return '#fc5e4e';
+        default:
+            return '#FC984E';
+    }
 }

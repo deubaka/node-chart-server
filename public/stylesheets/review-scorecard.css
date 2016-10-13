@@ -1,0 +1,9 @@
+text.light {
+    font-family: Helvetica;
+    font-weight: 100;
+}
+
+text.bold {
+    font-family: Helvetica;
+    font-weight: 400;
+}
