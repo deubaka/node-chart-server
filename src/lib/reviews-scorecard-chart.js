@@ -24,7 +24,7 @@ export default (reviewsScorecardData, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 250, width = 500;
+            }, height = data.topWords && data.topWords.length > 3 ? 280 : 250, width = 500;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -75,21 +75,6 @@ export default (reviewsScorecardData, callback) => {
                     });
             }
 
-            // const positiveTextX = (positiveX + positiveWidth) / 2;
-            // svg.append('text')
-            //     .attr({
-            //         'transform' : 'matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) ',
-            //         'font-size' : 24,
-            //         'font-family' : 'Sans-serif',
-            //         'text-anchor': 'middle',
-            //         'y' : '-1',
-            //         'x' : positiveTextX,
-            //         'stroke-width' : 0,
-            //         'xml:space' : 'preserve',
-            //         'fill' : '#ffffff'
-            //     })
-            //     .text(`${data.positivePercentage}% :)`);
-
             // Neutral
             const neutralX = positiveX + positiveWidth + 1;
             if (data.neutralPercentage > 0) {
@@ -106,20 +91,6 @@ export default (reviewsScorecardData, callback) => {
                     });
             }
 
-            // const neutralTextX = (neutralWidth + neutralX) + positiveX;
-            // svg.append('text')
-            //     .attr({
-            //         'transform' : 'matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) ',
-            //         'font-size' : 24,
-            //         'font-family' : 'Sans-serif',
-            //         'text-anchor': 'middle',
-            //         'y' : -1,
-            //         'x' : neutralTextX,
-            //         'stroke-width' : 0,
-            //         'fill' : '#ffffff'
-            //     })
-            //     .text(`${data.neutralPercentage}% :|`);
-
             // Negative
             const negativeX = neutralX + neutralWidth + 1;
             if (data.negativePercentage > 0) {
@@ -135,20 +106,6 @@ export default (reviewsScorecardData, callback) => {
                         'shape-rendering': 'crispEdges'
                     });
             }
-
-            // const negativeTextX = (negativeWidth + negativeX) + neutralX;
-            // svg.append('text')
-            //     .attr({
-            //         'transform' : 'matrix(0.46277010440826416,0,0,0.46277010440826416,84.73962181247771,127.59210020303726) ',
-            //         'font-size' : 24,
-            //         'font-family' : 'Sans-serif',
-            //         'text-anchor': 'middle',
-            //         'y' : -1,
-            //         'x' : negativeTextX,
-            //         'stroke-width' : 0,
-            //         'fill' : '#ffffff'
-            //     })
-            //     .text(`${data.negativePercentage}% :(`);
 
             svg.append('text')
                 .attr({
@@ -177,16 +134,23 @@ export default (reviewsScorecardData, callback) => {
                 .text('Top Keywords');
 
             const rectIndeces = [];
+            const limit = data.topWords.length > 3 ? 3 : data.topWords.length;
             if (data.hasOwnProperty('topWords') && data.topWords instanceof Array) {
-                for (var count = 0; count < data.topWords.length; count++) {
+                for (var count = 0, buffer = 0; count < data.topWords.length; count++, buffer++) {
                     // Others Comment
-                    rectIndeces[count] = ((width - (110 * data.topWords.length)) / 2) + (110 * count) + (count === 0 ? 10 : 0)
+                    if (buffer > 2) {
+                        buffer = 0; // Reset for new row
+                    }
+
+                    rectIndeces[count] = ((width - (110 * limit)) / 2) + (110 * count) + (count === 0 ? 10 : 0);
+
+                    console.log(`#### rectIndeces[${count}] :: getting rectIndeces[${buffer}]=${rectIndeces[buffer]}`)
                     svg.append('rect')
                         .attr({
                             'height': 30,
                             'width': 110,
-                            'y': 200,
-                            'x': rectIndeces[count],
+                            'y': 200 + (count > 2 ? 30 : 0),
+                            'x': rectIndeces[buffer],
                             'fill' : getColorForSentimentScore(data.topWords[count].sentimentScore),
                             'stroke' : '#fff',
                             'stroke-width' : 1,
@@ -197,8 +161,8 @@ export default (reviewsScorecardData, callback) => {
                         .attr({
                             'height': 30,
                             'width': 110,
-                            'y': 220,
-                            'x': rectIndeces[count] + (55),
+                            'y': 220 + (count > 2 ? 30 : 0),
+                            'x': rectIndeces[buffer] + (55),
                             'font-size': 12,
                             'font-family': 'Sans-serif',
                             'text-anchor': 'middle',
