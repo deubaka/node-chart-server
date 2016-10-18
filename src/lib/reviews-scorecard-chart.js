@@ -238,7 +238,7 @@ export default (reviewsScorecardData, callback) => {
                 })
                 .text('Sentiment Score');
 
-            const score = 2 * ((data.positivePercentage * 0.5) + (data.neutralPercentage * 0.30) + (data.negativePercentage * 0.20));
+            const score = (2 * ((data.positivePercentage * 0.3) + (data.neutralPercentage * 0.20) + (data.negativePercentage * 0.20))) + ((data.avgRatings / 5) * 30);
             const gradeColor = getGradeAndColorForScore(score);
 
             // Reviews Value
