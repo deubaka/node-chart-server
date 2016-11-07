@@ -61,15 +61,15 @@ export default (barSimpleData, callback) => {
 
             svg.append('style').html(css);
 
-            svg.append('text')
-                .attr({
-                    'dy': '.32em',
-                    'class': 'legend',
-                    'y': (height + margin.bottom + margin.top) + 35,
-                    'x': ((width + margin.left + margin.right) / 2) + 35,
-                    'text-rendering': 'auto'
-                })
-                .text('Events');
+            // svg.append('text')
+            //     .attr({
+            //         'dy': '.32em',
+            //         'class': 'legend',
+            //         'y': (height + margin.bottom + margin.top) + 35,
+            //         'x': ((width + margin.left + margin.right) / 2) + 35,
+            //         'text-rendering': 'auto'
+            //     })
+            //     .text('Events');
 
             svg = svg.append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
