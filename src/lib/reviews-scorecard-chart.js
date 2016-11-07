@@ -8,8 +8,6 @@ export default (reviewsScorecardData, callback) => {
         return callback(new Error('No data to work on'));
     }
 
-    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'review-scorecard.css'), 'utf-8');
-
     const filename = `reviews-scorecard_${new Date().getTime()}.svg`;
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
     jsdom.env({
@@ -24,7 +22,7 @@ export default (reviewsScorecardData, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = data.topWords && data.topWords.length > 3 ? 280 : 250, width = 500;
+            }, height = data.topWords && data.topWords.length > 3 ? 300 : 270, width = 500;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -36,8 +34,6 @@ export default (reviewsScorecardData, callback) => {
                     width: width,
                     height: height
                 });
-
-            svg.append('style').html(css);
 
             svg = svg.append('g');
 
@@ -68,9 +64,9 @@ export default (reviewsScorecardData, callback) => {
                         'stroke-width': 0,
                         'height': 30,
                         'width': positiveWidth,
-                        'y': 108,
+                        'y': 121,
                         'x': positiveX,
-                        'fill': '#2ecc82',
+                        'fill': '#118730',
                         'shape-rendering': 'crispEdges',
                     });
             }
@@ -84,9 +80,9 @@ export default (reviewsScorecardData, callback) => {
                         'stroke-width': 0,
                         'height': 30,
                         'width': neutralWidth,
-                        'y': 108,
+                        'y': 121,
                         'x': neutralX,
-                        'fill': '#FC984E',
+                        'fill': '#dd8a3a',
                         'shape-rendering': 'crispEdges'
                     });
             }
@@ -100,36 +96,36 @@ export default (reviewsScorecardData, callback) => {
                         'stroke-width': 0,
                         'height': 30,
                         'width': negativeWidth,
-                        'y': 108,
+                        'y': 121,
                         'x': negativeX,
-                        'fill': '#fc5e4e',
+                        'fill': '#c62817',
                         'shape-rendering': 'crispEdges'
                     });
             }
 
             svg.append('text')
                 .attr({
-                    'font-size': 15,
-                    'font-family': 'Sans-serif',
+                    'font-size': 11,
                     'text-anchor': 'middle',
-                    'y': 160,
+                    'y': 166,
                     'x': width / 2,
-                    'fill': '#7F7F7F',
+                    'fill': '#000000',
                     'xml:space': 'preserve',
-                    'class' :'light'
+                    'style': 'font-family: \'Helvetica\'; font-weight: 100;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text(data.topVersion);
 
             svg.append('text')
                 .attr({
                     'font-size': 15,
-                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y': 190,
+                    'y': 202,
                     'x': width / 2,
-                    'fill': '#4c4c4c',
+                    'fill': '#000',
                     'xml:space': 'preserve',
-                    'class' :'bold'
+                    'style': 'font-family: \'Helvetica\'; font-weight: 600;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text('Top Keywords');
 
@@ -149,11 +145,11 @@ export default (reviewsScorecardData, callback) => {
                         .attr({
                             'height': 30,
                             'width': 110,
-                            'y': 200 + (count > 2 ? 30 : 0),
+                            'y': 210 + (count > 2 ? 30 : 0),
                             'x': rectIndeces[buffer],
-                            'fill' : getColorForSentimentScore(data.topWords[count].sentimentScore),
-                            'stroke' : '#fff',
-                            'stroke-width' : 1,
+                            'fill': getColorForSentimentScore(data.topWords[count].sentimentScore),
+                            'stroke': '#fff',
+                            'stroke-width': 1,
                             'shape-rendering': 'crispEdges'
                         });
 
@@ -161,14 +157,15 @@ export default (reviewsScorecardData, callback) => {
                         .attr({
                             'height': 30,
                             'width': 110,
-                            'y': 220 + (count > 2 ? 30 : 0),
+                            'y': 230 + (count > 2 ? 30 : 0),
                             'x': rectIndeces[buffer] + (55),
                             'font-size': 12,
-                            'font-family': 'Sans-serif',
                             'text-anchor': 'middle',
                             'fill': '#fff',
                             'xml:space': 'preserve',
-                            'class' :'bold'
+                            'style': 'font-family:\'Helvetica\'; font-weight: 600;',
+                            'text-rendering' : 'optimizeLegibility',
+                            'font-weight' : 600
                         })
                         .text(data.topWords[count].word);
                 }
@@ -178,13 +175,14 @@ export default (reviewsScorecardData, callback) => {
             svg.append('text')
                 .attr({
                     'font-size': 15,
-                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
-                    'y': 100,
+                    'y': 115,
                     'x': width / 2,
-                    'fill': '#4c4c4c',
+                    'fill': '#000000',
                     'xml:space': 'preserve',
-                    'class' :'bold'
+                    'font-weight' : 600,
+                    'style': 'font-family:\'Helvetica\'; font-weight: 600;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text('Sentiment Breakdown');
 
@@ -192,13 +190,14 @@ export default (reviewsScorecardData, callback) => {
             svg.append('text')
                 .attr({
                     'font-size': 15,
-                    'font-family': 'Sans-serif',
+                    'font-weight' : 600,
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': (width / 2) - 150,
-                    'fill': '#4c4c4c',
+                    'fill': '#000000',
                     'xml:space': 'preserve',
-                    'class' :'bold'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 600;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text('Sentiment Score');
 
@@ -208,14 +207,14 @@ export default (reviewsScorecardData, callback) => {
             // Reviews Value
             svg.append('text')
                 .attr({
-                    'font-size': 22,
-                    'font-family': 'Sans-serif',
+                    'font-size': 40,
                     'text-anchor': 'middle',
-                    'y': 65,
+                    'y': 80,
                     'x': (width / 2) - 150,
                     'fill': gradeColor.color,
                     'xml:space': 'preserve',
-                    'class' :'light'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 100;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text(gradeColor.grade);
 
@@ -223,27 +222,27 @@ export default (reviewsScorecardData, callback) => {
             svg.append('text')
                 .attr({
                     'font-size': 15,
-                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': width / 2,
-                    'fill': '#4c4c4c',
+                    'fill': '#000000',
                     'xml:space': 'preserve',
-                    'class' :'bold'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 600;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text('Reviews');
 
             // Reviews Value
             svg.append('text')
                 .attr({
-                    'font-size': 22,
-                    'font-family': 'Sans-serif',
+                    'font-size': 40,
                     'text-anchor': 'middle',
-                    'y': 65,
+                    'y': 80,
                     'x': width / 2,
-                    'fill': '#7F7F7F',
+                    'fill': '#000',
                     'xml:space': 'preserve',
-                    'class' :'light'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 100;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text(reviewsScorecardData.countRatings);
 
@@ -251,13 +250,13 @@ export default (reviewsScorecardData, callback) => {
             svg.append('text')
                 .attr({
                     'font-size': 15,
-                    'font-family': 'Sans-serif',
                     'text-anchor': 'middle',
                     'y': 40,
                     'x': (width / 2) + 150,
-                    'fill': '#4c4c4c',
+                    'fill': '#000',
                     'xml:space': 'preserve',
-                    'class' :'bold'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 600;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text('Avg Stars');
 
@@ -265,14 +264,14 @@ export default (reviewsScorecardData, callback) => {
             // Avg Value
             svg.append('text')
                 .attr({
-                    'font-size': 22,
-                    'font-family': 'Sans-serif',
+                    'font-size': 40,
                     'text-anchor': 'middle',
-                    'y': 65,
+                    'y': 80,
                     'x': (width / 2) + 150,
-                    'fill': '#7F7F7F',
+                    'fill': '#000',
                     'xml:space': 'preserve',
-                    'class' :'light'
+                    'style': 'font-family:\'Helvetica\'; font-weight: 100;',
+                    'text-rendering' : 'optimizeLegibility'
                 })
                 .text(reviewsScorecardData.avgRatings);
 
@@ -289,7 +288,7 @@ export default (reviewsScorecardData, callback) => {
 function getGradeAndColorForScore(score) {
     let gradeColor = {};
     if (score <= 100 && score >= 80) {
-        gradeColor.color = '#2ecc82';
+        gradeColor.color = '#118730';
 
         if (score >= 95) {
             gradeColor.grade = 'A+';
@@ -299,7 +298,7 @@ function getGradeAndColorForScore(score) {
             gradeColor.grade = 'A-';
         }
     } else if (score <= 80 && score >= 60) {
-        gradeColor.color = '#2ecc82';
+        gradeColor.color = '#118730';
 
         if (score >= 75) {
             gradeColor.grade = 'B+';
@@ -309,7 +308,7 @@ function getGradeAndColorForScore(score) {
             gradeColor.grade = 'B-';
         }
     } else if (score <= 60 && score >= 30) {
-        gradeColor.color = '#FC984E';
+        gradeColor.color = '#dd8a3a';
 
         if (score >= 55) {
             gradeColor.grade = 'C+';
@@ -319,7 +318,7 @@ function getGradeAndColorForScore(score) {
             gradeColor.grade = 'C-';
         }
     } else if (score <= 30 && score >= 20) {
-        gradeColor.color = '#FC984E';
+        gradeColor.color = '#dd8a3a';
 
         if (score >= 26) {
             gradeColor.grade = 'D+';
@@ -329,10 +328,10 @@ function getGradeAndColorForScore(score) {
             gradeColor.grade = 'D-';
         }
     } else if (score <= 20 && score >= 10) {
-        gradeColor.color = '#fc5e4e';
+        gradeColor.color = '#c62817';
         gradeColor.grade = 'E';
     } else if (score <= 10 && score >= 0) {
-        gradeColor.color = '#fc5e4e';
+        gradeColor.color = '#c62817';
         gradeColor.grade = 'F';
     }
 
@@ -342,12 +341,12 @@ function getGradeAndColorForScore(score) {
 function getColorForSentimentScore(sentimentScore) {
     switch (sentimentScore) {
         case 0:
-            return '#FC984E';
+            return '#dd8a3a';
         case 1:
-            return '#2ecc82';
+            return '#118730';
         case -1:
-            return '#fc5e4e';
+            return '#c62817';
         default:
-            return '#FC984E';
+            return '#dd8a3a';
     }
 }
