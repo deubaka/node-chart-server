@@ -3,6 +3,7 @@ import donutCharts from './donut-chart';
 import barSimpleHoriCharts from './bar-simple-hori-chart';
 import barSimpleVertCharts from './bar-simple-vert-chart';
 import reviewsScorecard from './reviews-scorecard-chart';
+import lineChart from './line-chart';
 
 export default {
     Type: {
@@ -32,7 +33,8 @@ export default {
                 barSimpleVertCharts(data, callback);
                 break;
             case this.Type.LINE:
-                callback(new Error('Not yet implemented'));
+                console.log('Type.LINE');
+                lineChart(data, callback)
                 break;
             case this.Type.REVIEWS_SCORECARD:
                 reviewsScorecard(data, callback);
