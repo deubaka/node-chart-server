@@ -11,7 +11,7 @@ export default (lineData, callback) => {
 
     const filename = `line-chart_${new Date().getTime()}.svg`;
 
-    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'line-chart.css'), 'utf-8');
+    // const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'line-chart.css'), 'utf-8');
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
     jsdom.env({
         html: '',
@@ -20,21 +20,12 @@ export default (lineData, callback) => {
             window.d3 = d3.select(window.document);
             const data = lineData;
 
-            const colorRange = d3.scale
-                .ordinal()
-                .domain(lineData.map((d) => {
-                    return d.yVal;
-                }))
-                .range(colors.Swatch.Google);
-            const color = colorRange;
-
             const margin = {top: 20, right: 20, bottom: 50, left: 50},
-                barWidth = 20,
-                width = barWidth * data[0].length * 3,
+                width = 300,
                 height = width / 2;
 
             const x = d3.scale.ordinal()
-                .rangeRoundBands([0, width], .2);
+                .rangeRoundBands([0, width], .15);
 
             const y = d3.scale.linear()
                 .range([height, 0]);
@@ -47,16 +38,16 @@ export default (lineData, callback) => {
             const yAxis = d3.svg.axis()
                 .scale(y)
                 .orient('left')
-                .ticks(10);
+                .ticks(5);
 
             var lineGen = d3.svg.line()
-                .x(function (d) {
+                .x((d) => {
                     return x(d.xVal);
                 })
-                .y(function (d) {
+                .y((d) => {
                     return y(d.yVal);
                 })
-                .interpolate("basis");
+                .interpolate("linear");
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -65,11 +56,11 @@ export default (lineData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left + margin.right,
+                    width: width + margin.left,
                     height: height + margin.bottom + margin.top
                 });
 
-            svg.append('style').html(css);
+            // svg.append('style').html(css);
 
             svg = svg.append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -91,16 +82,18 @@ export default (lineData, callback) => {
                     .ticks(5);
             };
 
-            svg.append('g')
-                .attr('class', 'grid')
-                .attr('transform', `translate(0, ${height})`)
-                .call(xAxisGrid()
-                    .tickSize(-height, 0, 0)
-                    .tickFormat('')
-                );
+            // svg.append('g')
+            //     .attr('class', 'grid')
+            //     .attr('transform', `translate(0, ${height})`)
+            //     .attr('style', 'stroke: #e6e6e6; opacity: 0.7; shape-rendering: crispEdges; stroke-width: 0;')
+            //     .call(xAxisGrid()
+            //         .tickSize(-height, 0, 0)
+            //         .tickFormat('')
+            //     );
 
             svg.append('g')
                 .attr('class', 'grid')
+                .attr('style', 'stroke: #e6e6e6; opacity: 0.7; shape-rendering: crispEdges; stroke-width: 1;')
                 .call(yAxisGrid()
                     .tickSize(-width, 0, 0)
                     .tickFormat('')
@@ -108,26 +101,30 @@ export default (lineData, callback) => {
 
             svg.append('g')
                 .attr('class', 'x axis')
+                .attr('style', 'fill: none; stroke: #e6e6e6; shape-rendering: crispEdges; font-family Helvetica; font-size: : 8px; ')
                 .style()
                 .attr('transform', `translate(0,${height})`)
                 .call(xAxis)
                 .selectAll('text')
-                .style('text-anchor', 'end')
                 .attr('dx', '-.8em')
-                .attr('dy', '.15em')
-                .attr('transform', 'rotate(-65)');
+                .attr('dy', '.9em')
+                .attr('transform', `scale(0.5)`)
+                .attr('style' , 'font-family Helvetica; font-size: : 8px; fill: #000; stroke: none; text-anchor: end');
 
             svg.append('g')
                 .attr('class', 'y axis')
+                .attr('style', 'fill: none; stroke: #e6e6e6; shape-rendering: crispEdges; font-family Helvetica; font-size: : 8px; ')
                 .call(yAxis)
-                .append('text')
-                .attr('transform', 'rotate(-90)');
+                .selectAll('text')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'scale(0.5)')
+                .attr('style' , 'font-family Helvetica; font-size: : 8px; fill: #000; stroke: none; text-anchor: end');
 
-            let counter = 0;
             data.forEach((entry) => {
                 svg.append('svg:path')
                     .attr('d', lineGen(entry))
-                    .attr('stroke', color(counter++))
+                    .attr('stroke', colors.Swatch.Keynote[0])
                     .attr('stroke-width', 2)
                     .attr('fill', 'none')
                     .attr('shape-rendering', 'geometricPrecision');

@@ -38,6 +38,7 @@ text.legend {
     stroke: #e6e6e6;
     opacity: 0.7;
     shape-rendering: crispEdges;
+    stroke-width: 0;
 }
 .grid path {
     stroke-width: 0;
