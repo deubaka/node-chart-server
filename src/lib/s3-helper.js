@@ -46,18 +46,18 @@ export default {
                     } else {
                         callback(null, data.Location);
                     }
-                    // console.log(util.inspect(data));
-                    //
-                    // fs.unlink(filepath, err => {
-                    //     if (!err) {
-                    //         console.log(`Deleted ${filepath}`);
-                    //     }
-                    // });
-                    // fs.unlink(pngFilepath, err => {
-                    //     if (!err) {
-                    //         console.log(`Deleted ${pngFilepath}`);
-                    //     }
-                    // });
+                    console.log(util.inspect(data));
+
+                    fs.unlink(filepath, err => {
+                        if (!err) {
+                            console.log(`Deleted ${filepath}`);
+                        }
+                    });
+                    fs.unlink(pngFilepath, err => {
+                        if (!err) {
+                            console.log(`Deleted ${pngFilepath}`);
+                        }
+                    });
                 });
             });
         }
@@ -88,17 +88,17 @@ export default {
                         }
                         console.log(util.inspect(data));
 
-                        // fs.unlink(filepath, err => {
-                        //     if (!err) {
-                        //         console.log(`Deleted ${filepath}`);
-                        //     }
-                        // });
-                        //
-                        // fs.unlink(pngFilepath, err => {
-                        //     if (!err) {
-                        //         console.log(`Deleted ${pngFilepath}`);
-                        //     }
-                        // });
+                        fs.unlink(filepath, err => {
+                            if (!err) {
+                                console.log(`Deleted ${filepath}`);
+                            }
+                        });
+
+                        fs.unlink(pngFilepath, err => {
+                            if (!err) {
+                                console.log(`Deleted ${pngFilepath}`);
+                            }
+                        });
                     });
 
                 })
