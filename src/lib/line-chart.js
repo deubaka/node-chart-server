@@ -33,6 +33,7 @@ export default (lineData, callback) => {
             const xAxis = d3.svg.axis()
                 .scale(x)
                 .orient('bottom')
+                .tickPadding(8)
                 .ticks(10);
 
             const yAxis = d3.svg.axis()
@@ -101,25 +102,41 @@ export default (lineData, callback) => {
 
             svg.append('g')
                 .attr('class', 'x axis')
-                .attr('style', 'fill: none; stroke: #e6e6e6; shape-rendering: crispEdges; font-family Helvetica; font-size: : 8px; ')
+                .attr('font-family', 'Helvetica')
+                .attr('font-size', '8px')
+                .attr('font-weight', 400)
+                .attr('fill', 'none')
+                .attr('stroke', '#e6e6e6')
+                .attr('shape-rendering', 'crispEdges')
                 .style()
                 .attr('transform', `translate(0,${height})`)
                 .call(xAxis)
                 .selectAll('text')
-                .attr('dx', '-.8em')
-                .attr('dy', '.9em')
-                .attr('transform', `scale(0.5)`)
-                .attr('style' , 'font-family Helvetica; font-size: : 8px; fill: #000; stroke: none; text-anchor: end');
+                .attr('dy', '5')
+                .attr('font-family', 'Helvetica')
+                .attr('font-size', '8px')
+                .attr('font-weight', 400)
+                .attr('fill', '#000')
+                .attr('stroke', 'none')
+                .attr('style', 'text-anchor: middle');
 
             svg.append('g')
                 .attr('class', 'y axis')
-                .attr('style', 'fill: none; stroke: #e6e6e6; shape-rendering: crispEdges; font-family Helvetica; font-size: : 8px; ')
+                .attr('font-size', '8px')
+                .attr('font-weight', 400)
+                .attr('fill', 'none')
+                .attr('stroke', '#e6e6e6')
+                .attr('shape-rendering', 'crispEdges')
                 .call(yAxis)
                 .selectAll('text')
-                .attr('dx', '-.8em')
+                .attr('dx', '.15em')
                 .attr('dy', '.15em')
-                .attr('transform', 'scale(0.5)')
-                .attr('style' , 'font-family Helvetica; font-size: : 8px; fill: #000; stroke: none; text-anchor: end');
+                .attr('font-family', 'Helvetica')
+                .attr('font-size', '8px')
+                .attr('font-weight', 400)
+                .attr('fill', '#000')
+                .attr('stroke', 'none')
+                .attr('style', 'text-anchor: end');
 
             data.forEach((entry) => {
                 svg.append('svg:path')

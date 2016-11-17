@@ -12,7 +12,6 @@ export default (installSummary, callback) => {
     }
 
     const filename = `install-summary_${new Date().getTime()}.svg`;
-    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'public', 'stylesheets', 'line-chart.css'), 'utf-8');
     const outputLocation = path.join(__dirname, '..', '..', 'gen', filename);
     jsdom.env({
         html: '',
@@ -40,8 +39,6 @@ export default (installSummary, callback) => {
                     height: height
                 });
 
-            svg.append('style').html(css);
-
             svg = svg.append('g');
 
             // Title
@@ -52,9 +49,9 @@ export default (installSummary, callback) => {
                     'y': 30,
                     'x': width / 2,
                     'fill': '#1A1A1A',
-                    'font-weight': 500,
-                    'style': 'font-family:Helvetica; font-weight: 500;',
-                    'text-rendering': 'optimizeLegibility'
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
                 })
                 .text(data.title.toUpperCase());
 
@@ -67,8 +64,7 @@ export default (installSummary, callback) => {
                     'x': 20,
                     'width': 120,
                     'height': 110,
-                    'fill': '#1A69BA',
-                    'shape-rendering': 'crispEdges'
+                    'fill': '#1A69BA'
                 });
 
             // Total Installs  Label
@@ -79,9 +75,9 @@ export default (installSummary, callback) => {
                     'y': 65,
                     'x': 80,
                     'fill': '#fff',
-                    'font-weight': 500,
-                    'style': 'font-family:Helvetica; font-weight: 500;',
-                    'text-rendering': 'optimizeLegibility'
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
                 })
                 .text('Total Installs');
 
@@ -93,9 +89,9 @@ export default (installSummary, callback) => {
                     'y': 110,
                     'x': 80,
                     'fill': '#fff',
-                    'font-weight': 500,
-                    'style': 'font-family:Helvetica; font-weight: 500;',
-                    'text-rendering': 'optimizeLegibility'
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
                 })
                 .text(Number(data.totalInstalls).toLocaleString());
 
@@ -109,7 +105,7 @@ export default (installSummary, callback) => {
             //         'fill': '#fff',
             //         'xml:space': 'preserve',
             //         'style': 'font-family:Helvetica; font-weight: 200;',
-            //         'text-rendering': 'optimizeLegibility'
+            //         'text-rendering': 'geometricPrecision'
             //     })
             //     .text('Android');
             //
@@ -123,7 +119,7 @@ export default (installSummary, callback) => {
             //         'fill': '#fff',
             //         'xml:space': 'preserve',
             //         'style': 'font-family:Helvetica; font-weight: 100;',
-            //         'text-rendering': 'optimizeLegibility'
+            //         'text-rendering': 'geometricPrecision'
             //     })
             //     .text('65,123');
             //
@@ -137,7 +133,7 @@ export default (installSummary, callback) => {
             //         'fill': '#fff',
             //         'xml:space': 'preserve',
             //         'style': 'font-family:Helvetica; font-weight: 200;',
-            //         'text-rendering': 'optimizeLegibility'
+            //         'text-rendering': 'geometricPrecision'
             //     })
             //     .text('iOS');
             //
@@ -151,7 +147,7 @@ export default (installSummary, callback) => {
             //         'fill': '#fff',
             //         'xml:space': 'preserve',
             //         'style': 'font-family:Helvetica; font-weight: 100;',
-            //         'text-rendering': 'optimizeLegibility'
+            //         'text-rendering': 'geometricPrecision'
             //     })
             //     .text('65,123');
 
@@ -164,9 +160,9 @@ export default (installSummary, callback) => {
                     'y': 65,
                     'x': 250,
                     'fill': '#1A1A1A',
-                    'font-weight': 500,
-                    'style': 'font-family: Helvetica; font-weight: 500;',
-                    'text-rendering': 'optimizeLegibility'
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
                 })
                 .text('Top Countries');
 
@@ -193,27 +189,26 @@ export default (installSummary, callback) => {
 
                 svg.append('text')
                     .attr({
-                        'font-size': 8,
+                        'font-size': '12pt',
                         'text-anchor': 'left',
-                        'y': 60 + (index * 25) - 3,
-                        'x': 160,
+                        'y': 120 + (index * 50) - 6,
+                        'x': 320,
                         'fill': '#1A1A1A',
-                        'font-weight': 100,
-                        'style': 'font-family:Helvetica; font-weight: 100;',
-                        'text-rendering': 'optimizeLegibility'
+                        'font-weight': 400,
+                        'font-family': 'Helvetica',
+                        'transform' : 'scale(0.5)'
                     })
                     .text(topCountry.name);
 
                 svg.append('text')
                     .attr({
-                        'font-size': 7,
+                        'font-size': '6pt',
                         'text-anchor': 'left',
-                        'y': 60 + (index * 25) + 8,
-                        'x': (160) + barWidth + 5,
+                        'y': 60 + (index * 25) + 7.5,
+                        'x': (160) + barWidth + 3,
                         'fill': '#1A1A1A',
-                        'font-weight': 100,
-                        'style': 'font-family:Helvetica; font-weight: 100;',
-                        'text-rendering': 'optimizeLegibility'
+                        'font-weight': 400,
+                        'font-family': 'Helvetica'
                     })
                     .text(topCountry.value.toLocaleString());
             });
@@ -234,28 +229,30 @@ export default (installSummary, callback) => {
                         'y': 195,
                         'x': width / 2,
                         'fill': '#1A1A1A',
-                        'font-weight': 500,
-                        'style': 'font-family:Helvetica; font-weight: 500;',
-                        'text-rendering': 'optimizeLegibility'
+                        'font-weight': 700,
+                        'font-family': 'Helvetica',
+                        'text-rendering': 'geometricPrecision'
                     })
                     .text('Daily Breakdown');
 
                 svg.append('g')
-                    .attr('transform', 'translate(-10,200)')
+                    .attr('transform', 'translate(-15,200)')
                     .html(stripped);
 
 
                 svg.append('text')
                     .attr({
                         'dy': '.32em',
-                        'font-family' :  'Helvetica',
-                        'font-size' : '8px',
-                        'y': height - 30,
-                        'x': (width/ 2),
+                        'font-size': 7,
+                        'y': height - 20,
+                        'x': (width / 2),
                         'text-rendering': 'auto',
-                        'fill' : '#000',
-                        'stroke' : 'none',
-                        'text-anchor' : 'middle'
+                        'fill': '#000',
+                        'stroke': 'none',
+                        'text-anchor': 'middle',
+                        'font-weight': 700,
+                        'font-family': 'Helvetica',
+                        'text-rendering': 'geometricPrecision'
                     })
                     .text(data.xAxisLabel || 'Date');
 
@@ -264,12 +261,14 @@ export default (installSummary, callback) => {
                         'y': (height / 2),
                         'x': '0',
                         'text-rendering': 'auto',
-                        'font-family' :  'Helvetica',
-                        'font-size' : '8px',
-                        'fill' : '#000',
-                        'stroke' : 'none',
-                        'text-anchor' : 'middle',
-                        'transform' : `translate(-190, 290) rotate(-90)`
+                        'font-weight': 700,
+                        'font-family': 'Helvetica',
+                        'font-size': 7,
+                        'fill': '#000',
+                        'stroke': 'none',
+                        'text-anchor': 'middle',
+                        'transform': `translate(-195, 290) rotate(-90)`,
+                        'text-rendering': 'geometricPrecision'
                     })
                     .text(data.yAxisLabel || 'Installs');
 
