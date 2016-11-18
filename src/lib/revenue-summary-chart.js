@@ -82,42 +82,47 @@ export default (revenueSumary, callback) => {
                 .text('Total Revenue');
 
             // Total Revenue  Value
+
+            let titleSize = 27;
+            let currencyX = 112;
+
+            if (Number(data.totalRevenue) > 9999) {
+                titleSize = 25;
+                currencyX = 135;
+            } else if (Number(data.totalRevenue) > 999) {
+                currencyX = 130;
+            } else if (Number(data.totalRevenue) > 99) {
+                currencyX = 120;
+            }
+
+            svg.append('text')
+                .attr({
+                    'font-size': titleSize,
+                    'text-anchor': 'middle',
+                    'y': 110,
+                    'x': 80,
+                    'fill': '#fff',
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
+                })
+                .text(`${Number(data.totalRevenue).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`);
+
             svg.append('text')
                 .attr({
                     'font-size': 13,
                     'text-anchor': 'end',
-                    'y': 110,
-                    'x': 50,
+                    'y': 125,
+                    'x': currencyX,
                     'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
                     'text-rendering': 'geometricPrecision'
                 })
                 .text('US$');
-
-            data.totalRevenue = 12123;
-            let titleSize = 27;
-            let titleX = 60;
-
-            if (Number(data.totalRevenue) > 999) {
-                titleSize = 20;
-                titleX = 50;
-            } else if (Number(data.totalRevenue) > 99) {
-                titleX = 55;
-            }
-
-            svg.append('text')
-                .attr({
-                    'font-size': titleSize,
-                    'text-anchor': 'start',
-                    'y': 110,
-                    'x': titleX,
-                    'fill': '#fff',
-                    'font-weight': 700,
-                    'font-family': 'Helvetica',
-                    'text-rendering': 'geometricPrecision'
-                })
-                .text(`${Number(data.totalRevenue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits : 2 })}`);
 
             // // Android
             // svg.append('text')
@@ -220,7 +225,7 @@ export default (revenueSumary, callback) => {
                         'fill': '#1A1A1A',
                         'font-weight': 400,
                         'font-family': 'Helvetica',
-                        'transform' : 'scale(0.5)'
+                        'transform': 'scale(0.5)'
                     })
                     .text(topCountry.name);
 
@@ -234,7 +239,10 @@ export default (revenueSumary, callback) => {
                         'font-weight': 400,
                         'font-family': 'Helvetica'
                     })
-                    .text(`US$ ${topCountry.value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits : 2 })}`);
+                    .text(`US$ ${topCountry.value.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })}`);
             });
 
             /*------ Daily Breakdown ------*/
