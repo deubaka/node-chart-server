@@ -4,6 +4,7 @@ import barSimpleHoriCharts from './bar-simple-hori-chart';
 import barSimpleVertCharts from './bar-simple-vert-chart';
 import reviewsScorecard from './reviews-scorecard-chart';
 import installSummary from './install-summary-chart';
+import revenueSummary from './revenue-summary-chart';
 import lineChart from './line-chart';
 
 export default {
@@ -14,7 +15,8 @@ export default {
         BAR_SIMPLE_VERTICAL: 'chart.bar-simple-v',
         LINE: 'chart.line',
         REVIEWS_SCORECARD : 'chart.reviews-scorecard',
-        INSTALL_SUMMARY : 'chart.install-summary'
+        INSTALL_SUMMARY : 'chart.install-summary',
+        REVENUE_SUMMARY : 'chart.revenue-summary'
     },
     createChartFor(chartType, data, callback) {
         switch (chartType) {
@@ -43,6 +45,9 @@ export default {
                 break;
             case this.Type.INSTALL_SUMMARY:
                 installSummary(data, callback);
+                break;
+            case this.Type.REVENUE_SUMMARY:
+                revenueSummary(data, callback);
                 break;
             default:
                 callback(new Error('No match'));
