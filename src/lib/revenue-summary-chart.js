@@ -84,16 +84,40 @@ export default (revenueSumary, callback) => {
             // Total Revenue  Value
             svg.append('text')
                 .attr({
-                    'font-size': 27,
-                    'text-anchor': 'middle',
+                    'font-size': 13,
+                    'text-anchor': 'end',
                     'y': 110,
-                    'x': 80,
+                    'x': 50,
                     'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
                     'text-rendering': 'geometricPrecision'
                 })
-                .text(`US$ ${Number(data.totalRevenue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits : 2 })}`);
+                .text('US$');
+
+            data.totalRevenue = 12123;
+            let titleSize = 27;
+            let titleX = 60;
+
+            if (Number(data.totalRevenue) > 999) {
+                titleSize = 20;
+                titleX = 50;
+            } else if (Number(data.totalRevenue) > 99) {
+                titleX = 55;
+            }
+
+            svg.append('text')
+                .attr({
+                    'font-size': titleSize,
+                    'text-anchor': 'start',
+                    'y': 110,
+                    'x': titleX,
+                    'fill': '#fff',
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
+                })
+                .text(`${Number(data.totalRevenue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits : 2 })}`);
 
             // // Android
             // svg.append('text')
@@ -175,7 +199,7 @@ export default (revenueSumary, callback) => {
 
             let index = 0;
             data.topCountries.forEach((topCountry) => {
-                const barWidth = Math.ceil((topCountry.value / sum) * maxBarChart) - 15;
+                const barWidth = Math.ceil((topCountry.value / sum) * maxBarChart) - 5;
 
                 console.log(`chart[${index}]=${barWidth}`)
                 svg.append('rect')
