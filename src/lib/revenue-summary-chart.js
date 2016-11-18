@@ -64,7 +64,7 @@ export default (revenueSumary, callback) => {
                     'x': 20,
                     'width': 150,
                     'height': 110,
-                    'fill': '#165B21'
+                    'fill': colors.Swatch.Keynote[0]
                 });
 
             // Total Revenue  Label
@@ -227,13 +227,14 @@ export default (revenueSumary, callback) => {
 
                 svg.append('text')
                     .attr({
-                        'font-size': '6pt',
+                        'font-size': '12pt',
                         'text-anchor': 'left',
-                        'y': 60 + (index * 25) + 7.5,
+                        'y': 120 + (index * 50) + 15,
                         'x': (185) + barWidth + 3,
                         'fill': '#1A1A1A',
                         'font-weight': 400,
-                        'font-family': 'Helvetica'
+                        'font-family': 'Helvetica',
+                        'transform': `scale(0.5) translate(${(185) + barWidth + 3}, 1)`
                     })
                     .text(`US$ ${topCountry.value.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
