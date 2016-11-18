@@ -21,8 +21,8 @@ export default (lineData, callback) => {
             const data = lineData;
 
             const margin = {top: 20, right: 20, bottom: 50, left: 50},
-                width = 300,
-                height = width / 2;
+                width = 400,
+                height = 130;
 
             const x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .15);

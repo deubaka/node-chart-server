@@ -25,7 +25,7 @@ export default (installSummary, callback) => {
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 415, width = 360;
+            }, height = 350, width = 460;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -62,7 +62,7 @@ export default (installSummary, callback) => {
                 .attr({
                     'y': 45,
                     'x': 20,
-                    'width': 120,
+                    'width': 150,
                     'height': 110,
                     'fill': '#1A69BA'
                 });
@@ -73,7 +73,7 @@ export default (installSummary, callback) => {
                     'font-size': 13,
                     'text-anchor': 'middle',
                     'y': 65,
-                    'x': 80,
+                    'x': 95,
                     'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
@@ -87,7 +87,7 @@ export default (installSummary, callback) => {
                     'font-size': 27,
                     'text-anchor': 'middle',
                     'y': 110,
-                    'x': 80,
+                    'x': 95,
                     'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
@@ -166,23 +166,19 @@ export default (installSummary, callback) => {
                 })
                 .text('Top Countries');
 
-            const sum = _.reduce(data.topCountries, (sum, n) => {
-                const topCountry = n;
-                return sum + topCountry.value;
-            }, 0);
-
-            const maxBarChart = 320;
+            const maxBarChart = 230;
+            const sum = data.topCountries[0].value;
 
             let index = 0;
             data.topCountries.forEach((topCountry) => {
-                const barWidth = Math.ceil((topCountry.value / sum) * maxBarChart) - 15;
+                const barWidth = Math.ceil((topCountry.value / sum) * maxBarChart);
 
                 console.log(`chart[${index}]=${barWidth}`)
                 svg.append('rect')
                     .attr({
                         'fill': colors.Swatch.Keynote[index++],
                         'y': 60 + (index * 25),
-                        'x': 160,
+                        'x': 185,
                         'height': 10,
                         'width': barWidth
                     });
@@ -192,7 +188,7 @@ export default (installSummary, callback) => {
                         'font-size': '12pt',
                         'text-anchor': 'left',
                         'y': 120 + (index * 50) - 6,
-                        'x': 320,
+                        'x': 370,
                         'fill': '#1A1A1A',
                         'font-weight': 400,
                         'font-family': 'Helvetica',
@@ -205,7 +201,7 @@ export default (installSummary, callback) => {
                         'font-size': '6pt',
                         'text-anchor': 'left',
                         'y': 60 + (index * 25) + 7.5,
-                        'x': (160) + barWidth + 3,
+                        'x': (185) + barWidth + 3,
                         'fill': '#1A1A1A',
                         'font-weight': 400,
                         'font-family': 'Helvetica'
@@ -226,7 +222,7 @@ export default (installSummary, callback) => {
                     .attr({
                         'font-size': 13,
                         'text-anchor': 'middle',
-                        'y': 195,
+                        'y': 175,
                         'x': width / 2,
                         'fill': '#1A1A1A',
                         'font-weight': 700,
@@ -236,7 +232,7 @@ export default (installSummary, callback) => {
                     .text('Daily Breakdown');
 
                 svg.append('g')
-                    .attr('transform', 'translate(-15,200)')
+                    .attr('transform', 'translate(-15,165)')
                     .html(stripped);
 
 
@@ -244,7 +240,7 @@ export default (installSummary, callback) => {
                     .attr({
                         'dy': '.32em',
                         'font-size': 7,
-                        'y': height - 20,
+                        'y': height - 10,
                         'x': (width / 2),
                         'text-rendering': 'auto',
                         'fill': '#000',
@@ -267,7 +263,7 @@ export default (installSummary, callback) => {
                         'fill': '#000',
                         'stroke': 'none',
                         'text-anchor': 'middle',
-                        'transform': `translate(-195, 290) rotate(-90)`,
+                        'transform': `translate(-165, 260) rotate(-90)`,
                         'text-rendering': 'geometricPrecision'
                     })
                     .text(data.yAxisLabel || 'Installs');
