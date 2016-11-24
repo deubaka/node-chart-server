@@ -171,7 +171,7 @@ export default (installSummary, callback) => {
 
             let index = 0;
             data.topCountries.forEach((topCountry) => {
-                const barWidth = Math.ceil((topCountry.value / sum) * maxBarChart);
+                const barWidth = topCountry.value === 0 ? 10 : Math.ceil((topCountry.value / sum) * maxBarChart);
 
                 console.log(`chart[${index}]=${barWidth}`)
                 svg.append('rect')
