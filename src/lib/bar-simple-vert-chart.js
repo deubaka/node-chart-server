@@ -28,10 +28,10 @@ export default (barSimpleData, callback) => {
                 .range(colors.Swatch.Google);
             const color = colorRange;
 
-            const margin = {top: 20, right: 20, bottom: 30, left: 80},
-                barWidth = 30,
-                width = (barWidth * data.length * 2),
-                height = width / 2;
+            const barWidth = 30,
+                width = (barWidth * data.length * 3),
+                height = width / 2,
+                margin = {top: 20, right: 20, bottom: 80, left: 80}
 
             const x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .2);
@@ -46,7 +46,8 @@ export default (barSimpleData, callback) => {
 
             const yAxis = d3.svg.axis()
                 .scale(y)
-                .orient('left');
+                .orient('left')
+                .ticks(5);
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -55,9 +56,22 @@ export default (barSimpleData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left + margin.right + 100,
-                    height: height + margin.bottom + margin.top + 100
+                    width: width + margin.left + margin.right,
+                    height: height + margin.bottom + margin.top,
+
                 });
+
+            svg.append('rect')
+                .attr('stroke', '#000000')
+                .attr('stroke-width', 1)
+                .attr('fill', 'none')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom);
+
+            svg = svg.append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
 
             svg.append('style').html(css);
 
@@ -71,40 +85,37 @@ export default (barSimpleData, callback) => {
             //     })
             //     .text('Events');
 
-            svg = svg.append('g')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
-
             x.domain(data.map(d => d.label));
 
             y.domain([0, d3.max(data, d => d.val)]);
 
-            const xAxisGrid = () => {
-                return d3.svg.axis()
-                    .scale(x)
-                    .orient('bottom')
-            };
+            // const xAxisGrid = () => {
+            //     return d3.svg.axis()
+            //         .scale(x)
+            //         .orient('bottom')
+            // };
+            //
+            // const yAxisGrid = () => {
+            //     return d3.svg.axis()
+            //         .scale(y)
+            //         .orient('left')
+            //         .ticks(5);
+            // };
 
-            const yAxisGrid = () => {
-                return d3.svg.axis()
-                    .scale(y)
-                    .orient('left')
-                    .ticks(5);
-            };
-
-            svg.append('g')
-                .attr('class', 'grid')
-                .attr('transform', `translate(0, ${height})`)
-                .call(xAxisGrid()
-                    .tickSize(-height, 0, 0)
-                    .tickFormat('')
-                );
-
-            svg.append('g')
-                .attr('class', 'grid')
-                .call(yAxisGrid()
-                    .tickSize(-width, 0, 0)
-                    .tickFormat('')
-                );
+            // svg.append('g')
+            //     .attr('class', 'grid')
+            //     .attr('transform', `translate(0, ${height})`)
+            //     .call(xAxisGrid()
+            //         .tickSize(-height, 0, 0)
+            //         .tickFormat('')
+            //     );
+            //
+            // svg.append('g')
+            //     .attr('class', 'grid')
+            //     .call(yAxisGrid()
+            //         .tickSize(-width, 0, 0)
+            //         .tickFormat('')
+            //     );
 
             svg.append('g')
                 .attr('class', 'x axis')
