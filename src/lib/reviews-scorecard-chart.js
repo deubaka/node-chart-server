@@ -138,7 +138,7 @@ export default (reviewsScorecardData, callback) => {
                         buffer = 0; // Reset for new row
                     }
 
-                    rectIndeces[count] = ((width - (110 * limit)) / 2) + (110 * count) + (count === 0 ? 10 : 0);
+                    rectIndeces[count] = ((width - (110 * limit)) / 2) + (110 * count) + 10;
 
                     console.log(`#### rectIndeces[${count}] :: getting rectIndeces[${buffer}]=${rectIndeces[buffer]}`)
                     svg.append('rect')
