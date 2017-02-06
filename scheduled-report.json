@@ -1,0 +1,44 @@
+{
+  apps_followed : [
+    {
+      app_name : 'Lazada',
+      app_id : 'com.lazada.android',
+      geo : 'globally',
+      icon : 'asdasd'
+    },
+    {
+      app_name : 'Lazada',
+      app_id : 'id901283234',
+      geo : 'sg',
+      icon : 'asdasd'
+    }
+  ],
+  apps_integrated : [
+    {
+      app_name : 'Lazada',
+      app_id : 'com.lazada.android',
+      geo : 'globally',
+      icon : 'asdasd'
+    },
+    {
+      app_name : 'Lazada',
+      app_id : 'id901283234',
+      geo : 'sg',
+      icon : 'asdasd'
+    }
+  ],
+  reviews : {
+    title: 'asdasd',
+    data: [
+      {
+        // data
+        name: 'asdasd',
+        title: 'sadasd',
+        comment: 'asdasd',
+        date: 'adsasd',
+        geo: 'asdasd',
+        rate: 4
+      }
+    ]
+  }
+}
