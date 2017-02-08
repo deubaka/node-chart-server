@@ -4,8 +4,8 @@ import jsdom from 'jsdom';
 import path from 'path';
 import colors from '../res/color';
 
-export default (lineData, callback) => {
-    if (!lineData) {
+export default (rawData, callback) => {
+    if (!rawData) {
         return callback(new Error('No data to work on'));
     }
 
@@ -18,7 +18,7 @@ export default (lineData, callback) => {
         features: {QuerySelector: true},
         done(errors, window) {
             window.d3 = d3.select(window.document);
-            const data = lineData;
+            const  data = rawData.data;
 
             const margin = {top: 20, right: 20, bottom: 50, left: 50},
                 width = 400,
@@ -57,14 +57,42 @@ export default (lineData, callback) => {
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
                     version: '1.1',
-                    width: width + margin.left,
-                    height: height + margin.bottom + margin.top
+                    width: width + margin.left + margin.right,
+                    height: height + margin.bottom + margin.top + (rawData.title ? 10 : 0)
                 });
+
+            const bgColor = rawData.bgColor || '#ffffff';
+            const textColor = rawData.textColor || '#000000';
+            const gridColor = rawData.gridColor || '#e6e6e6';
+            const lineColor = rawData.lineColor;
+
+            svg.append('rect')
+                .attr('fill', bgColor)
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom + (rawData.title ? 10 : 0));
+
+            if (rawData.title) {
+                // Title
+                svg.append('text')
+                    .attr({
+                        'font-size': 13,
+                        'text-anchor': 'middle',
+                        'y': 20,
+                        'x': (width + margin.left + margin.right) / 2,
+                        'fill': textColor,
+                        'font-weight': 700,
+                        'font-family': 'Helvetica',
+                        'text-rendering': 'geometricPrecision'
+                    })
+                    .text(rawData.title);
+            }
 
             // svg.append('style').html(css);
 
             svg = svg.append('g')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
+                .attr('transform', `translate(${margin.left},${margin.top + (rawData.title ? 20 : 0)})`);
 
             x.domain(data[0].map(d => d.xVal));
 
@@ -94,7 +122,7 @@ export default (lineData, callback) => {
 
             svg.append('g')
                 .attr('class', 'grid')
-                .attr('style', 'stroke: #e6e6e6; opacity: 0.7; shape-rendering: crispEdges; stroke-width: 1;')
+                .attr('style', `stroke: ${gridColor}; opacity: 0.7; shape-rendering: crispEdges; stroke-width: 1;`)
                 .call(yAxisGrid()
                     .tickSize(-width, 0, 0)
                     .tickFormat('')
@@ -106,7 +134,7 @@ export default (lineData, callback) => {
                 .attr('font-size', '8px')
                 .attr('font-weight', 400)
                 .attr('fill', 'none')
-                .attr('stroke', '#e6e6e6')
+                .attr('stroke', gridColor)
                 .attr('shape-rendering', 'crispEdges')
                 .style()
                 .attr('transform', `translate(0,${height})`)
@@ -116,7 +144,7 @@ export default (lineData, callback) => {
                 .attr('font-family', 'Helvetica')
                 .attr('font-size', '8px')
                 .attr('font-weight', 400)
-                .attr('fill', '#000')
+                .attr('fill', textColor)
                 .attr('stroke', 'none')
                 .attr('style', 'text-anchor: middle');
 
@@ -125,7 +153,7 @@ export default (lineData, callback) => {
                 .attr('font-size', '8px')
                 .attr('font-weight', 400)
                 .attr('fill', 'none')
-                .attr('stroke', '#e6e6e6')
+                .attr('stroke', gridColor)
                 .attr('shape-rendering', 'crispEdges')
                 .call(yAxis)
                 .selectAll('text')
@@ -134,14 +162,14 @@ export default (lineData, callback) => {
                 .attr('font-family', 'Helvetica')
                 .attr('font-size', '8px')
                 .attr('font-weight', 400)
-                .attr('fill', '#000')
+                .attr('fill', textColor)
                 .attr('stroke', 'none')
                 .attr('style', 'text-anchor: end');
 
             data.forEach((entry) => {
                 svg.append('svg:path')
                     .attr('d', lineGen(entry))
-                    .attr('stroke', colors.Swatch.Keynote[0])
+                    .attr('stroke', lineColor || colors.Swatch.Keynote[0])
                     .attr('stroke-width', 2)
                     .attr('fill', 'none')
                     .attr('shape-rendering', 'geometricPrecision');
