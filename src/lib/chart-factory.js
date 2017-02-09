@@ -8,6 +8,7 @@ import revenueSummary from './revenue-summary-chart';
 import lineChart from './line-chart';
 import reviewsList from './reviews-list-chart';
 import appsList from './apps-list-chart';
+import scheduledReports from './scheduled-report-chart';
 
 export default {
     Type: {
@@ -20,7 +21,8 @@ export default {
         INSTALL_SUMMARY : 'chart.install-summary',
         REVENUE_SUMMARY : 'chart.revenue-summary',
         REVIEWS_LIST : 'chart.reviews-list',
-        APPS_LIST : 'chart.apps-list'
+        APPS_LIST : 'chart.apps-list',
+        SCHEDULED_REPORT : 'chart.scheduled-report'
     },
     createChartFor(chartType, data, callback) {
         switch (chartType) {
@@ -58,6 +60,9 @@ export default {
                 break;
             case this.Type.APPS_LIST:
                 appsList(data, callback);
+                break;
+            case this.Type.SCHEDULED_REPORT:
+                scheduledReports(data, callback);
                 break;
             default:
                 callback(new Error('No match'));

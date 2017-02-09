@@ -86,7 +86,7 @@ export default (appsListData, callback) => {
                 // app id and geo
                 svg.append('text')
                     .attr({
-                        'font-size': 12,
+                        'font-size': 10,
                         'text-anchor': 'left',
                         'y': (index * 25) + 50,
                         'x': 95,
@@ -101,16 +101,13 @@ export default (appsListData, callback) => {
                 svg = svg.append('g');
 
                 const appsIntegrated = appsListData.apps_integrated;
-
-
-                console.dir(appsIntegrated);
                 // Title
                 svg.append('text')
                     .attr({
                         'font-size': 15,
                         'text-anchor': 'left',
                         'y': 20,
-                        'x': 320,
+                        'x': 280,
                         'fill': '#1A1A1A',
                         'font-weight': 700,
                         'font-family': 'Helvetica',
@@ -127,7 +124,7 @@ export default (appsListData, callback) => {
                     svg.append('image')
                         .attr({
                             'y': (index * 25) + 35,
-                            'x': 320,
+                            'x': 280,
                             'width': 20,
                             'height': 20
                         })
@@ -139,7 +136,7 @@ export default (appsListData, callback) => {
                             'font-size': 13,
                             'text-anchor': 'left',
                             'y': (index * 25) + 50,
-                            'x': 345,
+                            'x': 305,
                             'fill': '#000000',
                             'font-weight': 700,
                             'font-family': 'Helvetica',
@@ -150,10 +147,10 @@ export default (appsListData, callback) => {
                     // app id and geo
                     svg.append('text')
                         .attr({
-                            'font-size': 12,
+                            'font-size': 10,
                             'text-anchor': 'left',
                             'y': (index * 25) + 50,
-                            'x': 395,
+                            'x': 355,
                             'fill': '#000000',
                             'font-weight': 300,
                             'font-family': 'Helvetica',
@@ -161,80 +158,14 @@ export default (appsListData, callback) => {
                         })
                         .text(`(${appIntegrated.app_id} | ${appIntegrated.geo})`);
                 }
+            }
 
-                try {
-                    fs.writeFileSync(outputLocation, window.d3.select('.container').html());
-                    callback(null, filename);
-                } catch (err) {
-                    callback(err);
-                }
+            try {
+                fs.writeFileSync(outputLocation, window.d3.select('.container').html());
+                callback(null, filename);
+            } catch (err) {
+                callback(err);
             }
         }
     });
 };
-
-function getGradeAndColorForScore(score) {
-    let gradeColor = {};
-    if (score <= 100 && score >= 80) {
-        gradeColor.color = '#118730';
-
-        if (score >= 95) {
-            gradeColor.grade = 'A+';
-        } else if (score < 95 && score > 85) {
-            gradeColor.grade = 'A';
-        } else if (score <= 85) {
-            gradeColor.grade = 'A-';
-        }
-    } else if (score <= 80 && score >= 60) {
-        gradeColor.color = '#118730';
-
-        if (score >= 75) {
-            gradeColor.grade = 'B+';
-        } else if (score < 75 && score > 60) {
-            gradeColor.grade = 'B';
-        } else if (score <= 60) {
-            gradeColor.grade = 'B-';
-        }
-    } else if (score <= 60 && score >= 30) {
-        gradeColor.color = '#dd8a3a';
-
-        if (score >= 55) {
-            gradeColor.grade = 'C+';
-        } else if (score < 55 && score > 40) {
-            gradeColor.grade = 'C';
-        } else if (score <= 40) {
-            gradeColor.grade = 'C-';
-        }
-    } else if (score <= 30 && score >= 20) {
-        gradeColor.color = '#dd8a3a';
-
-        if (score >= 26) {
-            gradeColor.grade = 'D+';
-        } else if (score < 26 && score > 23) {
-            gradeColor.grade = 'D';
-        } else if (score <= 23) {
-            gradeColor.grade = 'D-';
-        }
-    } else if (score <= 20 && score >= 10) {
-        gradeColor.color = '#c62817';
-        gradeColor.grade = 'E';
-    } else if (score <= 10 && score >= 0) {
-        gradeColor.color = '#c62817';
-        gradeColor.grade = 'F';
-    }
-
-    return gradeColor;
-}
-
-function getColorForSentimentScore(sentimentScore) {
-    switch (sentimentScore) {
-        case 0:
-            return '#dd8a3a';
-        case 1:
-            return '#118730';
-        case -1:
-            return '#c62817';
-        default:
-            return '#dd8a3a';
-    }
-}

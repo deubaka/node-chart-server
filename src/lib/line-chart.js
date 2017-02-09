@@ -18,7 +18,7 @@ export default (rawData, callback) => {
         features: {QuerySelector: true},
         done(errors, window) {
             window.d3 = d3.select(window.document);
-            const  data = rawData.data;
+            const data = rawData.data;
 
             const margin = {top: 20, right: 20, bottom: 50, left: 50},
                 width = 400,
