@@ -29,7 +29,7 @@ export default (appsListData, callback) => {
                 .append('svg:svg')
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
-                    'xmlns:xlink' : 'http://www.w3.org/1999/xlink',
+                    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
                     version: '1.1',
                     width: width,
                     height: height
@@ -56,66 +56,72 @@ export default (appsListData, callback) => {
             svg = svg.append('g');
 
             // Loop through reviews max of 5?
-            for (let index = 0; index < appsFollowed.length; index++) {
-                const appFollowed = appsFollowed[index];
+            if (appsFollowed.length > 0) {
+                for (let index = 0; index < appsFollowed.length; index++) {
+                    const appFollowed = appsFollowed[index];
 
-                // app icon
-                svg.append('image')
-                    .attr({
-                        'y': (index * 30) + 35,
-                        'x': 20,
-                        'width' : 20,
-                        'height' : 20
-                    })
-                    .attr('xlink:href', `./../public/images/ios-app-default.png`);
+                    // app icon
+                    svg.append('image')
+                        .attr({
+                            'y': (index * 30) + 35,
+                            'x': 20,
+                            'width': 20,
+                            'height': 20
+                        })
+                        .attr('xlink:href', `./../public/images/ios-app-default.png`);
 
-                // app name
-                svg.append('text')
-                    .attr({
-                        'font-size': 13,
-                        'text-anchor': 'left',
-                        'y': (index * 30) + 50,
-                        'x': 45,
-                        'fill': '#000000',
-                        'font-weight': 700,
-                        'font-family': 'Helvetica',
-                        'text-rendering': 'geometricPrecision'
-                    })
-                    .text(`${appFollowed.app_name}`);
+                    // app name
+                    svg.append('text')
+                        .attr({
+                            'font-size': 13,
+                            'text-anchor': 'left',
+                            'y': (index * 30) + 50,
+                            'x': 45,
+                            'fill': '#000000',
+                            'font-weight': 700,
+                            'font-family': 'Helvetica',
+                            'text-rendering': 'geometricPrecision'
+                        })
+                        .text(`${appFollowed.app_name}`);
 
-                // app id and geo
-                svg.append('text')
-                    .attr({
-                        'font-size': 10,
-                        'text-anchor': 'left',
-                        'y': (index * 30) + 62,
-                        'x': 45,
-                        'fill': '#000000',
-                        'font-weight': 300,
-                        'font-family': 'Helvetica',
-                        'text-rendering': 'geometricPrecision'
-                    })
-                    .text(`(${appFollowed.app_id}${!appFollowed.geo ? '' : ` | ${appFollowed.geo}`})`);
+                    // app id and geo
+                    svg.append('text')
+                        .attr({
+                            'font-size': 10,
+                            'text-anchor': 'left',
+                            'y': (index * 30) + 62,
+                            'x': 45,
+                            'fill': '#000000',
+                            'font-weight': 300,
+                            'font-family': 'Helvetica',
+                            'text-rendering': 'geometricPrecision'
+                        })
+                        .text(`(${appFollowed.app_id}${!appFollowed.geo ? '' : ` | ${appFollowed.geo}`})`);
+                }
+            }
 
-                // Apps Integrated
-                svg = svg.append('g');
 
-                const appsIntegrated = appsListData.apps_integrated;
-                // Title
-                svg.append('text')
-                    .attr({
-                        'font-size': 15,
-                        'text-anchor': 'left',
-                        'y': 20,
-                        'x': 280,
-                        'fill': '#1A1A1A',
-                        'font-weight': 700,
-                        'font-family': 'Helvetica',
-                        'text-rendering': 'geometricPrecision'
-                    })
-                    .text('Apps Integrated');
+            // Apps Integrated
+            svg = svg.append('g');
 
-                svg = svg.append('g');
+            const appsIntegrated = appsListData.apps_integrated;
+            // Title
+            svg.append('text')
+                .attr({
+                    'font-size': 15,
+                    'text-anchor': 'left',
+                    'y': 20,
+                    'x': 280,
+                    'fill': '#1A1A1A',
+                    'font-weight': 700,
+                    'font-family': 'Helvetica',
+                    'text-rendering': 'geometricPrecision'
+                })
+                .text('Apps Integrated');
+
+            svg = svg.append('g');
+
+            if (appsIntegrated.length > 0) {
                 // Loop through reviews max of 5?
                 for (let index = 0; index < appsIntegrated.length; index++) {
                     const appIntegrated = appsIntegrated[index];
