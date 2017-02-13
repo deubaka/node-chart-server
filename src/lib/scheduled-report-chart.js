@@ -77,7 +77,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** installSummaryChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${(width / 2) - 460},0)`)
+                                .attr('transform', `translate(${(width / 2) - 470}, 70)`)
                                 .html(stripped);
 
                             cb(err, svg);
@@ -91,7 +91,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** revenueSummaryChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2) + 50)},0)`)
+                                .attr('transform', `translate(${((width / 2) + 40)}, 70)`)
                                 .html(stripped);
 
                             cb(err, svg);
@@ -105,7 +105,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** dauChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2) - 470)},410)`)
+                                .attr('transform', `translate(${((width / 2) - 470)},460)`)
                                 .html(stripped);
 
                             cb(err, svg);
@@ -119,7 +119,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** dpuChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2)) + 40},410)`)
+                                .attr('transform', `translate(${((width / 2)) + 40},460)`)
                                 .html(stripped);
 
                             cb(err, svg);
@@ -133,7 +133,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** reviewsScorecard: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2)) - 490},650)`)
+                                .attr('transform', `translate(${((width / 2)) - 490},700)`)
                                 .html(stripped);
 
                             cb(null, svg);
@@ -147,7 +147,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** appsListChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2)) - 510},970)`)
+                                .attr('transform', `translate(${((width / 2)) - 510},1020)`)
                                 .html(stripped);
 
                             cb(err, svg);
@@ -161,7 +161,7 @@ export default (scheduledReportsData, callback) => {
                             console.log(`***** reviewsListChart: ${stripped}`);
 
                             svg.append('g')
-                                .attr('transform', `translate(${((width / 2)) + 20},650)`)
+                                .attr('transform', `translate(${((width / 2)) + 20},700)`)
                                 .html(stripped);
 
                             cb(err, svg);

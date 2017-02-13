@@ -2,6 +2,8 @@ import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
 import fs from 'fs';
+import moment from 'moment';
+moment().format();
 
 export default (reviewsListData, callback) => {
     if (!reviewsListData) {
@@ -54,7 +56,8 @@ export default (reviewsListData, callback) => {
             svg = svg.append('g');
 
             // Loop through reviews max of 5?
-            for (let index = 0; index < data.data.length; index++) {
+            const max = data.data.length > 5 ? 5 : data.data.length;
+            for (let index = 0; index < max; index++) {
                 const review = data.data[index];
                 const offset = index * 10;
 
@@ -70,7 +73,7 @@ export default (reviewsListData, callback) => {
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     })
-                    .text(`${review.date} from ${review.geo}`);
+                    .text(`${moment(review.date_fetched).format('MMMM DD, YYYY')} ${review.country === 'globally' ? '' : `from ${review.country}`}`);
 
                 let stars = '';
                 for (let count = 0; count < review.rate; count++) {
@@ -100,7 +103,7 @@ export default (reviewsListData, callback) => {
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     })
-                    .text(review.title || 'Some generic title');
+                    .text(review.title || 'Unknown');
 
                 svg.append('text')
                     .attr({
@@ -113,7 +116,7 @@ export default (reviewsListData, callback) => {
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     })
-                    .text(review.title || 'Some generic title');
+                    .text(review.comment || 'Unknown');
 
                 svg.append('text')
                     .attr({
@@ -126,7 +129,7 @@ export default (reviewsListData, callback) => {
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     }) //`${review.date} from ${review.geo}` ||
-                    .text(`by ${review.name}`);
+                    .text(`by ${review.user_name}`);
             }
 
             try {

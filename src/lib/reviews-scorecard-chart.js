@@ -39,12 +39,12 @@ export default (reviewsScorecardData, callback) => {
 
             svg.append('rect')
                 .attr({
-                    'stroke': '#e5e5e5',
+                    'stroke': '#EFF3F4',
                     'height': height - margin.bottom - margin.top,
                     'width': width - margin.right - margin.left,
                     'y': margin.top,
                     'x': margin.left,
-                    'fill': '#ffffff',
+                    'fill': '#EFF3F4',
                     'shape-rendering': 'crispEdges',
                     'rx': 6,
                     'ry': 6

@@ -2,7 +2,6 @@ import fs from 'fs';
 import d3 from 'd3';
 import jsdom from 'jsdom';
 import path from 'path';
-import _ from 'lodash';
 import colors from './../res/color';
 import LineChart from './line-chart';
 
@@ -19,13 +18,14 @@ export default (installSummary, callback) => {
         done(errors, window) {
             window.d3 = d3.select(window.document);
             const data = installSummary;
+            const hasTitle = data.title || data.title.trim().length > 0;
 
             const margin = {
                 top: 10,
                 right: 10,
                 bottom: 10,
                 left: 10
-            }, height = 350, width = 460;
+            }, height = hasTitle ? 350 : 300, width = 470;
 
             let svg = window.d3.select('body')
                 .append('div')
@@ -39,16 +39,24 @@ export default (installSummary, callback) => {
                     height: height
                 });
 
+            svg.append('rect')
+                .attr('fill', '#5D97BF')
+                .attr('x', 0)
+                .attr('y', 0)
+                .attr('width', width)
+                .attr('height', height);
+
             svg = svg.append('g');
+
 
             // Title
             svg.append('text')
                 .attr({
                     'font-size': 13,
                     'text-anchor': 'middle',
-                    'y': 30,
+                    'y': hasTitle ? 30 : 0,
                     'x': width / 2,
-                    'fill': '#1A1A1A',
+                    'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
                     'text-rendering': 'geometricPrecision'
@@ -64,7 +72,7 @@ export default (installSummary, callback) => {
                     'x': 20,
                     'width': 150,
                     'height': 110,
-                    'fill': '#1A69BA'
+                    'fill': 'none'
                 });
 
             // Total Installs  Label
@@ -157,9 +165,9 @@ export default (installSummary, callback) => {
                 .attr({
                     'font-size': 13,
                     'text-anchor': 'middle',
-                    'y': 65,
+                    'y': hasTitle ? 65 : 35,
                     'x': 250,
-                    'fill': '#1A1A1A',
+                    'fill': '#fff',
                     'font-weight': 700,
                     'font-family': 'Helvetica',
                     'text-rendering': 'geometricPrecision'
@@ -176,8 +184,8 @@ export default (installSummary, callback) => {
                 console.log(`chart[${index}]=${barWidth}`)
                 svg.append('rect')
                     .attr({
-                        'fill': colors.Swatch.Keynote[index++],
-                        'y': 60 + (index * 25),
+                        'fill': colors.Swatch.Angie[index++],
+                        'y': (hasTitle ? 60 : 30) + (index * 25),
                         'x': 185,
                         'height': 10,
                         'width': barWidth
@@ -187,9 +195,9 @@ export default (installSummary, callback) => {
                     .attr({
                         'font-size': '12pt',
                         'text-anchor': 'left',
-                        'y': 120 + (index * 50) - 6,
+                        'y': (hasTitle ? 120 : 60) + (index * 50) - 6,
                         'x': 370,
-                        'fill': '#1A1A1A',
+                        'fill': '#fff',
                         'font-weight': 400,
                         'font-family': 'Helvetica',
                         'transform' : 'scale(0.5)'
@@ -200,9 +208,9 @@ export default (installSummary, callback) => {
                     .attr({
                         'font-size': '6pt',
                         'text-anchor': 'left',
-                        'y': 60 + (index * 25) + 7.5,
+                        'y': (hasTitle ? 60 : 30) + (index * 25) + 7.5,
                         'x': (185) + barWidth + 3,
-                        'fill': '#1A1A1A',
+                        'fill': '#fff',
                         'font-weight': 400,
                         'font-family': 'Helvetica'
                     })
@@ -211,6 +219,10 @@ export default (installSummary, callback) => {
 
             /*------ Daily Breakdown ------*/
             /*------- Line Chart -------*/
+            data.data.bgColor = '#5D97BF';
+            data.data.gridColor = '#fff';
+            data.data.textColor = '#fff';
+            data.data.lineColor = '#fff';
             LineChart(data.data, (err, svgFilename) => {
                 const lineChartSvg = fs.readFileSync(path.join(__dirname, '..', '..', 'gen', svgFilename), 'utf-8');
 
@@ -222,9 +234,9 @@ export default (installSummary, callback) => {
                     .attr({
                         'font-size': 13,
                         'text-anchor': 'middle',
-                        'y': 175,
+                        'y': (hasTitle ? 175 : 135),
                         'x': width / 2,
-                        'fill': '#1A1A1A',
+                        'fill': '#fff',
                         'font-weight': 700,
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
@@ -232,7 +244,7 @@ export default (installSummary, callback) => {
                     .text('Daily Breakdown');
 
                 svg.append('g')
-                    .attr('transform', 'translate(-15,165)')
+                    .attr('transform', `translate(0,${hasTitle ? 165 : 140})`)
                     .html(stripped);
 
 
@@ -240,10 +252,10 @@ export default (installSummary, callback) => {
                     .attr({
                         'dy': '.32em',
                         'font-size': 7,
-                        'y': height - 10,
+                        'y': height - (hasTitle ? 10 : -20),
                         'x': (width / 2),
                         'text-rendering': 'auto',
-                        'fill': '#000',
+                        'fill': '#fff',
                         'stroke': 'none',
                         'text-anchor': 'middle',
                         'font-weight': 700,
@@ -260,10 +272,10 @@ export default (installSummary, callback) => {
                         'font-weight': 700,
                         'font-family': 'Helvetica',
                         'font-size': 7,
-                        'fill': '#000',
+                        'fill': '#fff',
                         'stroke': 'none',
                         'text-anchor': 'middle',
-                        'transform': `translate(-165, 260) rotate(-90)`,
+                        'transform': `translate(${hasTitle ? -165: -125},${hasTitle ?260 : 230}) rotate(-90)`,
                         'text-rendering': 'geometricPrecision'
                     })
                     .text(data.yAxisLabel || 'Installs');

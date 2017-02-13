@@ -62,7 +62,7 @@ export default (appsListData, callback) => {
                 // app icon
                 svg.append('image')
                     .attr({
-                        'y': (index * 25) + 35,
+                        'y': (index * 30) + 35,
                         'x': 20,
                         'width' : 20,
                         'height' : 20
@@ -74,7 +74,7 @@ export default (appsListData, callback) => {
                     .attr({
                         'font-size': 13,
                         'text-anchor': 'left',
-                        'y': (index * 25) + 50 ,
+                        'y': (index * 30) + 50,
                         'x': 45,
                         'fill': '#000000',
                         'font-weight': 700,
@@ -88,14 +88,14 @@ export default (appsListData, callback) => {
                     .attr({
                         'font-size': 10,
                         'text-anchor': 'left',
-                        'y': (index * 25) + 50,
-                        'x': 95,
+                        'y': (index * 30) + 62,
+                        'x': 45,
                         'fill': '#000000',
                         'font-weight': 300,
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     })
-                    .text(`(${appFollowed.app_id} | ${appFollowed.geo})`);
+                    .text(`(${appFollowed.app_id}${!appFollowed.geo ? '' : ` | ${appFollowed.geo}`})`);
 
                 // Apps Integrated
                 svg = svg.append('g');
@@ -123,7 +123,7 @@ export default (appsListData, callback) => {
                     // app icon
                     svg.append('image')
                         .attr({
-                            'y': (index * 25) + 35,
+                            'y': (index * 30) + 35,
                             'x': 280,
                             'width': 20,
                             'height': 20
@@ -135,7 +135,7 @@ export default (appsListData, callback) => {
                         .attr({
                             'font-size': 13,
                             'text-anchor': 'left',
-                            'y': (index * 25) + 50,
+                            'y': (index * 30) + 50,
                             'x': 305,
                             'fill': '#000000',
                             'font-weight': 700,
@@ -149,14 +149,14 @@ export default (appsListData, callback) => {
                         .attr({
                             'font-size': 10,
                             'text-anchor': 'left',
-                            'y': (index * 25) + 50,
-                            'x': 355,
+                            'y': (index * 30) + 62,
+                            'x': 305,
                             'fill': '#000000',
                             'font-weight': 300,
                             'font-family': 'Helvetica',
                             'text-rendering': 'geometricPrecision'
                         })
-                        .text(`(${appIntegrated.app_id} | ${appIntegrated.geo})`);
+                        .text(`(${appIntegrated.app_id}${!appIntegrated.geo ? '' : ` | ${appIntegrated.geo}`})`);
                 }
             }
 
