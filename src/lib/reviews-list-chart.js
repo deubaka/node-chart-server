@@ -77,7 +77,7 @@ export default (reviewsListData, callback) => {
 
                 let stars = '';
                 for (let count = 0; count < review.rate; count++) {
-                    stars += '★';
+                    stars += '&#9733;';
                 }
                 svg.append('text')
                     .attr({
@@ -85,12 +85,12 @@ export default (reviewsListData, callback) => {
                         'text-anchor': 'left',
                         'y': (index * 80) + 15 + 50 + offset,
                         'x': 30,
-                        'fill': '#9EA0A4',
+                        'fill': '#FBE393',
                         'font-weight': 300,
                         'font-family': 'Helvetica',
                         'text-rendering': 'geometricPrecision'
                     })
-                    .text(stars);
+                    .html(stars);
 
                 svg.append('text')
                     .attr({
