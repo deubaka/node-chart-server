@@ -29,7 +29,6 @@ export default (appsListData, callback) => {
                 .append('svg:svg')
                 .attr({
                     xmlns: 'http://www.w3.org/2000/svg',
-                    'xmlns:xlink': 'http://www.w3.org/1999/xlink',
                     version: '1.1',
                     width: width,
                     height: height
@@ -59,16 +58,24 @@ export default (appsListData, callback) => {
             if (appsFollowed.length > 0) {
                 for (let index = 0; index < appsFollowed.length; index++) {
                     const appFollowed = appsFollowed[index];
+                    let appIcon = appFollowed.icon;
 
+                    if (appFollowed.icon && appFollowed.icon.startsWith('//')) {
+                        appIcon = `http:${appIcon}`;
+                    } else if (!appFollowed.icon) {
+                        appIcon = 'http://127.0.0.1:3000/images/ios-app-default.png';
+                    } else {
+                        appIcon = appFollowed.icon;
+                    }
                     // app icon
                     svg.append('image')
                         .attr({
-                            'y': (index * 30) + 35,
+                            'y': (index * 30) + 42,
                             'x': 20,
                             'width': 20,
                             'height': 20
                         })
-                        .attr('xlink:href', `./../public/images/ios-app-default.png`);
+                        .attr(':xlink:href', appIcon);
 
                     // app name
                     svg.append('text')
@@ -125,16 +132,26 @@ export default (appsListData, callback) => {
                 // Loop through reviews max of 5?
                 for (let index = 0; index < appsIntegrated.length; index++) {
                     const appIntegrated = appsIntegrated[index];
+                    let appIcon = appIntegrated.icon;
+
+                    console.log(`** appIntegrated.icon: ${appIntegrated.icon}`)
+                    if (appIntegrated.icon && appIntegrated.icon.startsWith('//')) {
+                        appIcon = `http:${appIcon}`;
+                    } else if (!appIntegrated.icon) {
+                        appIcon = 'http://127.0.0.1:3000/images/ios-app-default.png';
+                    } else {
+                        appIcon = appIntegrated.icon;
+                    }
 
                     // app icon
                     svg.append('image')
                         .attr({
-                            'y': (index * 30) + 35,
+                            'y': (index * 30) + 42,
                             'x': 280,
                             'width': 20,
                             'height': 20
                         })
-                        .attr('xlink:href', `./../public/images/ios-app-default.png`);
+                        .attr(':xlink:href', appIcon);
 
                     // app name
                     svg.append('text')
